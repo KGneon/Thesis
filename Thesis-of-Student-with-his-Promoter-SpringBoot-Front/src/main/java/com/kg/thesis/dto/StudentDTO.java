@@ -85,5 +85,4 @@ public class StudentDTO {
 		student.setPromoter(studentDTO.getPromoter());
 		return student;
 	}
-	
 }
