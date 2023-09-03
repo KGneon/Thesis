@@ -98,16 +98,16 @@ public class ThesisApi {
 		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 	
+//	@PutMapping(value="/thesis/{studentId}")
+//	public ResponseEntity<String> deleteThesis(@PathVariable Integer studentId){
+//		String message = "";
+//		
+//		
+//		return new ResponseEntity<>(message, HttpStatus.OK);
+//	}
+	
 	@PutMapping(value="/students/{studentId}/{promoterId}")
 	public ResponseEntity<String> updatePromoter(@PathVariable Integer studentId, @PathVariable Integer promoterId){
-		String message = "";
-		
-		
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value="/thesis/{studentId}")
-	public ResponseEntity<String> deleteThesis(@PathVariable Integer studentId){
 		String message = "";
 		
 		

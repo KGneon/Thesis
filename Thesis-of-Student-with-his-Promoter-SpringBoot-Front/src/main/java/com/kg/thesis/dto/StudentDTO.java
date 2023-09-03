@@ -15,8 +15,6 @@ public class StudentDTO {
 	@NotNull(message="{student.surname.cannot.be.null}")
 	private String studentSurname;
 	private String thesisName;
-	private String thesisField;
-	private ThesisType thesisType;
 	private Promoter promoter;
 	
 	public Integer getStudentId() {
@@ -43,18 +41,6 @@ public class StudentDTO {
 	public void setThesisName(String thesisName) {
 		this.thesisName = thesisName;
 	}
-	public String getThesisField() {
-		return thesisField;
-	}
-	public void setThesisField(String thesisField) {
-		this.thesisField = thesisField;
-	}
-	public ThesisType getThesisType() {
-		return thesisType;
-	}
-	public void setThesisType(ThesisType thesisType) {
-		this.thesisType = thesisType;
-	}
 	public Promoter getPromoter() {
 		return promoter;
 	}
@@ -68,8 +54,6 @@ public class StudentDTO {
 		studentDTO.setStudentName(student.getStudentName());
 		studentDTO.setStudentSurname(student.getStudentSurname());
 		studentDTO.setThesisName(student.getThesisName());
-		studentDTO.setThesisField(student.getThesisField());
-		studentDTO.setThesisType(student.getThesisType());
 		studentDTO.setPromoter(student.getPromoter());
 		return studentDTO;
 	}
@@ -80,8 +64,6 @@ public class StudentDTO {
 		student.setStudentName(studentDTO.getStudentName());
 		student.setStudentSurname(studentDTO.getStudentSurname());
 		student.setThesisName(studentDTO.getThesisName());
-		student.setThesisField(studentDTO.getThesisField());
-		student.setThesisType(studentDTO.getThesisType());
 		student.setPromoter(studentDTO.getPromoter());
 		return student;
 	}

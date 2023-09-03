@@ -18,8 +18,6 @@ public class Student {
 	private String studentName;
 	private String studentSurname;
 	private String thesisName;
-	private String thesisField;
-	private ThesisType thesisType;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="promoter_id")
 	private Promoter promoter;
@@ -48,18 +46,6 @@ public class Student {
 	public void setThesisName(String thesisName) {
 		this.thesisName = thesisName;
 	}
-	public String getThesisField() {
-		return thesisField;
-	}
-	public void setThesisField(String thesisField) {
-		this.thesisField = thesisField;
-	}
-	public ThesisType getThesisType() {
-		return thesisType;
-	}
-	public void setThesisType(ThesisType thesisType) {
-		this.thesisType = thesisType;
-	}
 	public Promoter getPromoter() {
 		return promoter;
 	}
@@ -68,7 +54,7 @@ public class Student {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(promoter, studentId, studentName, studentSurname, thesisField, thesisName, thesisType);
+		return Objects.hash(promoter, studentId, studentName, studentSurname, thesisName);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -82,14 +68,12 @@ public class Student {
 		return Objects.equals(promoter, other.promoter) && Objects.equals(studentId, other.studentId)
 				&& Objects.equals(studentName, other.studentName)
 				&& Objects.equals(studentSurname, other.studentSurname)
-				&& Objects.equals(thesisField, other.thesisField) && Objects.equals(thesisName, other.thesisName)
-				&& thesisType == other.thesisType;
+				&& Objects.equals(thesisName, other.thesisName);
 	}
 	@Override
 	public String toString() {
 		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentSurname=" + studentSurname
-				+ ", thesisName=" + thesisName + ", thesisField=" + thesisField + ", thesisType=" + thesisType
-				+ ", promoter=" + promoter + "]";
+				+ ", thesisName=" + thesisName + ", promoter=" + promoter + "]";
 	}
 	
 	

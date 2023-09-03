@@ -62,7 +62,7 @@ public class ThesisServiceImpl implements ThesisService {
 	public List<String> getListOfThesis() throws ThesisException {
 		List<Student> studentList = studentRepository.findAll();
 		List<String> thesisList = new ArrayList<>();
-		if (studentList != null) {
+		if (!studentList.isEmpty()) {
 			studentList.forEach(s -> {
 				if (s.getThesisName() != null) {
 					thesisList.add(s.getThesisName());
@@ -72,7 +72,7 @@ public class ThesisServiceImpl implements ThesisService {
 			throw new ThesisException("Service.EMPTY_STUDENTS_LIST");
 		}
 		
-		if(thesisList == null) throw new ThesisException("Service.NO_THESIS");
+		if(thesisList.isEmpty()) throw new ThesisException("Service.NO_THESIS");
 		else return thesisList; 
 	}
 
@@ -131,32 +131,36 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 
 	@Override
+	//TO CHANGE WITH THESIS ENTITY
 	//UNFINISHED input validation
-	public void updateThesis(String thesis, String thesisField, ThesisType thesisType, Integer studentId) throws ThesisException {
+	public void updateThesis(String thesis, Integer studentId) throws ThesisException {
 		Optional<Student> optionalStudent = studentRepository.findById(studentId);
 		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
 		student.setThesisName(thesis);
-		student.setThesisField(thesisField);
-		student.setThesisType(thesisType);
 		studentRepository.save(student);
 	}
 
-	@Override
-	public void deleteThesis(Integer studentId) throws ThesisException {
-		// TODO Auto-generated method stub
-
-	}
+	
+//	TO ADD WITH THESIS ENTITY	
+//	@Override
+//	public void deleteThesis(Integer studentId) throws ThesisException {
+//		Optional<Student> optionalStudent = studentRepository.findById(studentId);
+//		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
+//		student.setThesisName(thesis);
+//	}
 
 	@Override
 	public void deleteStudent(Integer studentId) throws ThesisException {
-		// TODO Auto-generated method stub
-
+		Optional<Student> optionalStudent = studentRepository.findById(studentId);
+		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
+		studentRepository.delete(student);
 	}
 
 	@Override
-	public void deletePromoter(Integer promoterId) {
-		// TODO Auto-generated method stub
-
+	public void deletePromoter(Integer promoterId) throws ThesisException {
+		Optional<Promoter> optionalPromoter = promoterRepository.findById(promoterId);
+		Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
+		promoterRepository.delete(promoter);
 	}
 
 }
