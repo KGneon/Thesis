@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Student {
@@ -17,7 +18,9 @@ public class Student {
 	private Integer studentId;
 	private String studentName;
 	private String studentSurname;
-	private String thesisName;
+	@OneToOne
+	@JoinColumn(name="thesis_id")
+	private Thesis thesis;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="promoter_id")
 	private Promoter promoter;
@@ -40,11 +43,11 @@ public class Student {
 	public void setStudentSurname(String studentSurname) {
 		this.studentSurname = studentSurname;
 	}
-	public String getThesisName() {
-		return thesisName;
+	public Thesis getThesis() {
+		return thesis;
 	}
-	public void setThesisName(String thesisName) {
-		this.thesisName = thesisName;
+	public void setThesis(Thesis thesis) {
+		this.thesis = thesis;
 	}
 	public Promoter getPromoter() {
 		return promoter;
@@ -54,7 +57,7 @@ public class Student {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(promoter, studentId, studentName, studentSurname, thesisName);
+		return Objects.hash(promoter, studentId, studentName, studentSurname, thesis);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -68,12 +71,12 @@ public class Student {
 		return Objects.equals(promoter, other.promoter) && Objects.equals(studentId, other.studentId)
 				&& Objects.equals(studentName, other.studentName)
 				&& Objects.equals(studentSurname, other.studentSurname)
-				&& Objects.equals(thesisName, other.thesisName);
+				&& Objects.equals(thesis, other.thesis);
 	}
 	@Override
 	public String toString() {
 		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentSurname=" + studentSurname
-				+ ", thesisName=" + thesisName + ", promoter=" + promoter + "]";
+				+ ", thesisName=" + thesis + ", promoter=" + promoter + "]";
 	}
 	
 	

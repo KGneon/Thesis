@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kg.thesis.dto.PromoterDTO;
 import com.kg.thesis.dto.StudentDTO;
+import com.kg.thesis.dto.ThesisDTO;
 import com.kg.thesis.entity.Promoter;
 import com.kg.thesis.entity.Student;
 import com.kg.thesis.service.ThesisService;
@@ -42,6 +43,14 @@ public class ThesisApi {
 		return new ResponseEntity<>(listOfStudents, HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/students/badthesis")
+	public ResponseEntity<List<StudentDTO>> getStudentsWithDoubtfulThesis(){
+		List<StudentDTO> listOfStudents = new ArrayList<>();
+		
+		
+		return new ResponseEntity<>(listOfStudents, HttpStatus.OK);
+	}
+	
 	@GetMapping(value="/promoters")
 	public ResponseEntity<List<PromoterDTO>> getAllPromoters(){
 		List<PromoterDTO> listOfPromoters = new ArrayList<>();
@@ -59,8 +68,8 @@ public class ThesisApi {
 	}
 	
 	@GetMapping(value="/thesis")
-	public ResponseEntity<List<String>> getListOfThesis(){
-		List<String> listOfThesis = new ArrayList<>();
+	public ResponseEntity<List<ThesisDTO>> getAllThesis(){
+		List<ThesisDTO> listOfThesis = new ArrayList<>();
 		
 		
 		return new ResponseEntity<>(listOfThesis, HttpStatus.OK);
@@ -68,6 +77,14 @@ public class ThesisApi {
 	
 	@GetMapping(value="/students/{id}")
 	public ResponseEntity<StudentDTO> getStudentById(@PathVariable("id") Integer studentId){
+		StudentDTO studentDTO = new StudentDTO();
+		
+		
+		return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/students/{thesis}")
+	public ResponseEntity<StudentDTO> getStudentByThesisName(@PathVariable("thesis") String thesisName){
 		StudentDTO studentDTO = new StudentDTO();
 		
 		
@@ -90,24 +107,24 @@ public class ThesisApi {
 		return new ResponseEntity<>(message, HttpStatus.CREATED);
 	}
 	
+	@PostMapping(value="/thesis")
+	public ResponseEntity<String> addThesis(@RequestBody ThesisDTO thesisDTO){
+		String message = "";
+		
+		
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	}
+	
 	@PutMapping(value="/thesis/{studentId}")
-	public ResponseEntity<String> updateThesis(@RequestBody String thesis, Integer studentId){
+	public ResponseEntity<String> updateThesisOfStudent(@RequestBody ThesisDTO thesisDTO, Integer studentId){
 		String message = "";
 		
 		
 		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 	
-//	@PutMapping(value="/thesis/{studentId}")
-//	public ResponseEntity<String> deleteThesis(@PathVariable Integer studentId){
-//		String message = "";
-//		
-//		
-//		return new ResponseEntity<>(message, HttpStatus.OK);
-//	}
-	
-	@PutMapping(value="/students/{studentId}/{promoterId}")
-	public ResponseEntity<String> updatePromoter(@PathVariable Integer studentId, @PathVariable Integer promoterId){
+	@PutMapping(value="/promoter/{studentId}/{promoterId}")
+	public ResponseEntity<String> updatePromoterOfStudent(@PathVariable Integer studentId, @PathVariable Integer promoterId){
 		String message = "";
 		
 		
@@ -126,6 +143,13 @@ public class ThesisApi {
 	public ResponseEntity<String> deletePromoter(@PathVariable Integer promoterId){
 		String message = "";
 		
+		
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/thesis/{thesisId}")
+	public ResponseEntity<String> deleteThesis(@PathVariable Integer thesisId){
+		String message = "";
 		
 		return new ResponseEntity<>(message, HttpStatus.OK);
 	}

@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.kg.thesis.dto.PromoterDTO;
 import com.kg.thesis.dto.StudentDTO;
+import com.kg.thesis.dto.ThesisDTO;
 import com.kg.thesis.entity.Promoter;
 import com.kg.thesis.entity.Student;
+import com.kg.thesis.entity.Thesis;
 import com.kg.thesis.entity.ThesisType;
 import com.kg.thesis.exception.ThesisException;
 import com.kg.thesis.repository.PromoterRepository;
 import com.kg.thesis.repository.StudentRepository;
+import com.kg.thesis.repository.ThesisRepository;
 
 @Service(value = "thesisService")
 public class ThesisServiceImpl implements ThesisService {
@@ -24,6 +27,9 @@ public class ThesisServiceImpl implements ThesisService {
 
 	@Autowired
 	StudentRepository studentRepository;
+	
+	@Autowired
+	ThesisRepository thesisRepository;
 
 	@Override
 	public List<StudentDTO> getStudents() throws ThesisException {
@@ -42,7 +48,7 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 
 	@Override
-	public List<PromoterDTO> getMentors() throws ThesisException {
+	public List<PromoterDTO> getPromoters() throws ThesisException {
 		List<Promoter> promoterList = promoterRepository.findAll();
 		if (promoterList != null) {
 			List<PromoterDTO> promoterDTOList = new ArrayList<>();
@@ -59,21 +65,20 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 
 	@Override
-	public List<String> getListOfThesis() throws ThesisException {
-		List<Student> studentList = studentRepository.findAll();
-		List<String> thesisList = new ArrayList<>();
-		if (!studentList.isEmpty()) {
-			studentList.forEach(s -> {
-				if (s.getThesisName() != null) {
-					thesisList.add(s.getThesisName());
-				}
+	public List<ThesisDTO> getThesis() throws ThesisException {
+		List<Thesis> thesisList = thesisRepository.findAll();
+		if (thesisList != null) {
+			List<ThesisDTO> thesisDTOList = new ArrayList<>();
+			thesisList.forEach(p -> {
+				ThesisDTO thesisDTO = new ThesisDTO();
+				thesisDTO = ThesisDTO.createDTO(p);
+				thesisDTOList.add(thesisDTO);
+
 			});
+			return thesisDTOList;
 		} else {
-			throw new ThesisException("Service.EMPTY_STUDENTS_LIST");
+			throw new ThesisException("Service.Service.NO_THESIS");
 		}
-		
-		if(thesisList.isEmpty()) throw new ThesisException("Service.NO_THESIS");
-		else return thesisList; 
 	}
 
 	@Override
@@ -131,25 +136,6 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 
 	@Override
-	//TO CHANGE WITH THESIS ENTITY
-	//UNFINISHED input validation
-	public void updateThesis(String thesis, Integer studentId) throws ThesisException {
-		Optional<Student> optionalStudent = studentRepository.findById(studentId);
-		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
-		student.setThesisName(thesis);
-		studentRepository.save(student);
-	}
-
-	
-//	TO ADD WITH THESIS ENTITY	
-//	@Override
-//	public void deleteThesis(Integer studentId) throws ThesisException {
-//		Optional<Student> optionalStudent = studentRepository.findById(studentId);
-//		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
-//		student.setThesisName(thesis);
-//	}
-
-	@Override
 	public void deleteStudent(Integer studentId) throws ThesisException {
 		Optional<Student> optionalStudent = studentRepository.findById(studentId);
 		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
@@ -161,6 +147,18 @@ public class ThesisServiceImpl implements ThesisService {
 		Optional<Promoter> optionalPromoter = promoterRepository.findById(promoterId);
 		Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
 		promoterRepository.delete(promoter);
+	}
+
+	@Override
+	public void updateThesis(String thesis, Integer studentId) throws ThesisException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteThesis(Integer thesisId) throws ThesisException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

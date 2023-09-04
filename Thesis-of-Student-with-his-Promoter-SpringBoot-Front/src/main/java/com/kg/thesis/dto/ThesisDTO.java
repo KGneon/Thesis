@@ -1,10 +1,11 @@
 package com.kg.thesis.dto;
 
+import com.kg.thesis.entity.Thesis;
 import com.kg.thesis.entity.ThesisType;
 
 public class ThesisDTO {
 	private Integer thesisId;
-	private Integer thesisName;
+	private String thesisName;
 	private String thesisField;
 	private ThesisType thesisType;
 	
@@ -14,10 +15,10 @@ public class ThesisDTO {
 	public void setThesisId(Integer thesisId) {
 		this.thesisId = thesisId;
 	}
-	public Integer getThesisName() {
+	public String getThesisName() {
 		return thesisName;
 	}
-	public void setThesisName(Integer thesisName) {
+	public void setThesisName(String thesisName) {
 		this.thesisName = thesisName;
 	}
 	public String getThesisField() {
@@ -33,5 +34,21 @@ public class ThesisDTO {
 		this.thesisType = thesisType;
 	}
 	
+	public static Thesis createEntity(ThesisDTO thesisDTO) {
+		Thesis thesis = new Thesis();
+		thesis.setThesisId(thesisDTO.getThesisId());
+		thesis.setThesisName(thesisDTO.getThesisName());
+		thesis.setThesisField(thesisDTO.getThesisField());
+		thesis.setThesisType(thesisDTO.getThesisType());
+		return thesis;
+	}
 	
+	public static ThesisDTO createDTO(Thesis thesis) {
+		ThesisDTO thesisDTO = new ThesisDTO();
+		thesisDTO.setThesisId(thesis.getThesisId());
+		thesisDTO.setThesisName(thesis.getThesisName());
+		thesisDTO.setThesisField(thesis.getThesisField());
+		thesisDTO.setThesisType(thesis.getThesisType());
+		return thesisDTO;
+	}
 }

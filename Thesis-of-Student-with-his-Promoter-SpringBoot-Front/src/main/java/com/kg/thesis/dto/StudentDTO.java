@@ -2,6 +2,7 @@ package com.kg.thesis.dto;
 
 import com.kg.thesis.entity.Promoter;
 import com.kg.thesis.entity.Student;
+import com.kg.thesis.entity.Thesis;
 import com.kg.thesis.entity.ThesisType;
 
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ public class StudentDTO {
 	private String studentName;
 	@NotNull(message="{student.surname.cannot.be.null}")
 	private String studentSurname;
-	private String thesisName;
+	private Thesis thesis;
 	private Promoter promoter;
 	
 	public Integer getStudentId() {
@@ -35,11 +36,11 @@ public class StudentDTO {
 	public void setStudentSurname(String studentSurname) {
 		this.studentSurname = studentSurname;
 	}
-	public String getThesisName() {
-		return thesisName;
+	public Thesis getThesis() {
+		return thesis;
 	}
-	public void setThesisName(String thesisName) {
-		this.thesisName = thesisName;
+	public void setThesis(Thesis thesis) {
+		this.thesis = thesis;
 	}
 	public Promoter getPromoter() {
 		return promoter;
@@ -53,7 +54,7 @@ public class StudentDTO {
 		studentDTO.setStudentId(student.getStudentId());
 		studentDTO.setStudentName(student.getStudentName());
 		studentDTO.setStudentSurname(student.getStudentSurname());
-		studentDTO.setThesisName(student.getThesisName());
+		studentDTO.setThesis(student.getThesis());
 		studentDTO.setPromoter(student.getPromoter());
 		return studentDTO;
 	}
@@ -63,7 +64,7 @@ public class StudentDTO {
 		student.setStudentId(studentDTO.getStudentId());
 		student.setStudentName(studentDTO.getStudentName());
 		student.setStudentSurname(studentDTO.getStudentSurname());
-		student.setThesisName(studentDTO.getThesisName());
+		student.setThesis(studentDTO.getThesis());
 		student.setPromoter(studentDTO.getPromoter());
 		return student;
 	}

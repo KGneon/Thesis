@@ -1,13 +1,16 @@
 package com.kg.thesis.entity;
 
-//import jakarta.persistence.Entity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-//@Entity
-
-//UNTACHED TO DATABASE YET
+@Entity
 public class Thesis {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer thesisId;
-	private Integer thesisName;
+	private String thesisName;
 	private String thesisField;
 	private ThesisType thesisType;
 	public Integer getThesisId() {
@@ -16,10 +19,10 @@ public class Thesis {
 	public void setThesisId(Integer thesisId) {
 		this.thesisId = thesisId;
 	}
-	public Integer getThesisName() {
+	public String getThesisName() {
 		return thesisName;
 	}
-	public void setThesisName(Integer thesisName) {
+	public void setThesisName(String thesisName) {
 		this.thesisName = thesisName;
 	}
 	public String getThesisField() {
