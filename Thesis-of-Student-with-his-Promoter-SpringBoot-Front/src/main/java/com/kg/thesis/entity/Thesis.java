@@ -1,6 +1,8 @@
 package com.kg.thesis.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +14,7 @@ public class Thesis {
 	private Integer thesisId;
 	private String thesisName;
 	private String thesisField;
+	@Enumerated(EnumType.STRING)
 	private ThesisType thesisType;
 	public Integer getThesisId() {
 		return thesisId;

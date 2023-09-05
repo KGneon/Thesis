@@ -4,8 +4,8 @@ CREATE DATABASE thesis_db;
 
 USE thesis_db;
 
--- Create the Promotor table
-CREATE TABLE Promotor (
+-- Create the Promoter table
+CREATE TABLE Promoter (
     promoter_id INT PRIMARY KEY,
     promoter_name VARCHAR(255) NOT NULL,
     promoter_surname VARCHAR(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE Thesis (
 	thesis_id INT PRIMARY KEY,
 	thesis_name VARCHAR(50) NOT NULL,
 	thesis_field VARCHAR(50) NOT NULL,
-	thesis_type VARCHAR(10) NOT NULL
+	thesis_type VARCHAR(50) NOT NULL
 );
 
 -- Create the Student table
@@ -30,14 +30,14 @@ CREATE TABLE Student (
     promoter_id INT,
  
     FOREIGN KEY (thesis_id) REFERENCES Thesis (thesis_id),
-	FOREIGN KEY (promoter_id) REFERENCES Promotor (promoter_id)
+	FOREIGN KEY (promoter_id) REFERENCES Promoter (promoter_id)
 
 );
 
 
 
 -- Sample Promotor records
-INSERT INTO Promotor (promoter_id, promoter_name, promoter_surname, field, number_of_students_lead)
+INSERT INTO Promoter (promoter_id, promoter_name, promoter_surname, field, number_of_students_lead)
 VALUES
     (101, 'Prof. John', 'Smith', 'Computer Science', 5),
     (102, 'Dr. Alice', 'Johnson', 'Mathematics', 4),

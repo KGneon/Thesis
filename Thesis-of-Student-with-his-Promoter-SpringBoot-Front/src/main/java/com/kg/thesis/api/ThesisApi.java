@@ -41,9 +41,9 @@ public class ThesisApi {
 		List<StudentDTO> listOfStudents = thesisService.getStudents();
 		return new ResponseEntity<>(listOfStudents, HttpStatus.OK);
 	}
-	
-	@GetMapping(value="/students/{}")
-	public ResponseEntity<List<StudentDTO>> getStudentsWithDoubtfulThesis(@PathVariable Boolean notMatchedOrBlank)  throws ThesisException{
+	//OGARNĄĆ
+	@GetMapping(value="/students/{matched}")
+	public ResponseEntity<List<StudentDTO>> getStudentsWithDoubtfulThesis(@PathVariable("matched") Boolean notMatchedOrBlank)  throws ThesisException{
 		List<StudentDTO> listOfStudents = thesisService.getStudentsWithDoubtfulThesis(notMatchedOrBlank);
 		return new ResponseEntity<>(listOfStudents, HttpStatus.OK);
 	}
@@ -53,13 +53,13 @@ public class ThesisApi {
 		List<PromoterDTO> listOfPromoters = thesisService.getPromoters();		
 		return new ResponseEntity<>(listOfPromoters, HttpStatus.OK);
 	}
-	
+	//OGARNĄĆ
 	@GetMapping(value="/promoters/possible_allocation")
-	public ResponseEntity<List<PromoterDTO>> getPromotersWithPossibleStudentAllocation(@PathVariable("number") Integer studentsLead) throws ThesisException{
+	public ResponseEntity<List<PromoterDTO>> getPromotersWithPossibleStudentAllocation() throws ThesisException{
 		List<PromoterDTO> listOfPromoters = thesisService.getPromotersWithPossibleStudentAllocation();
 		return new ResponseEntity<>(listOfPromoters, HttpStatus.OK);
 	}
-	
+	//nie ogarnia wartosci na minusie
 	@GetMapping(value="/promoters/{number}")
 	public ResponseEntity<List<PromoterDTO>> getPromotersByNumberOfStudentsLead(@PathVariable("number") Integer studentsLead) throws ThesisException{
 		List<PromoterDTO> listOfPromoters = thesisService.getPromotersByStudentsLead(studentsLead);

@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kg.thesis.dto.PromoterDTO;
 import com.kg.thesis.dto.StudentDTO;
@@ -19,6 +21,8 @@ import com.kg.thesis.repository.StudentRepository;
 import com.kg.thesis.repository.ThesisRepository;
 
 @Service(value = "thesisService")
+@Transactional
+@PropertySource("classpath:application.properties")
 public class ThesisServiceImpl implements ThesisService {
 
 	@Autowired
@@ -99,7 +103,7 @@ public class ThesisServiceImpl implements ThesisService {
 	
 	@Override
 	public List<PromoterDTO> getPromotersByStudentsLead(Integer studentsLead) throws ThesisException {
-		List<Promoter> promoterList = promoterRepository.findByNumberOfStudentsLeadAsc(studentsLead);
+		List<Promoter> promoterList = promoterRepository.findByNumberOfStudentsLead(studentsLead);
 		if(promoterList.isEmpty()) throw new ThesisException("Service.NO_PROMOTERS_WITH_THAT_LEAD");
 		else {
 			List<PromoterDTO> promoterDTOList = new ArrayList<>(); 
@@ -201,7 +205,7 @@ public class ThesisServiceImpl implements ThesisService {
 		Optional<Promoter> optionalPromoter = promoterRepository.findById(promoterId);
 		Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
 		
-		List<Student> studentList = studentRepository.findByPromoterId(promoterId);
+		List<Student> studentList = studentRepository.findByPromoter(promoter);
 		studentList.forEach(s -> {
 			s.setPromoter(null);
 			studentRepository.save(s);
@@ -214,7 +218,7 @@ public class ThesisServiceImpl implements ThesisService {
 		Optional<Thesis> optionalThesis = thesisRepository.findById(thesisId);
 		Thesis thesis = optionalThesis.orElseThrow(() -> new ThesisException("Service.NO_THESIS_BY_ID"));
 		
-		List<Student> studentList = studentRepository.findByThesisId(thesisId);
+		List<Student> studentList = studentRepository.findByThesis(thesis);
 		studentList.forEach(s -> {
 			s.setThesis(null);
 			studentRepository.save(s);
