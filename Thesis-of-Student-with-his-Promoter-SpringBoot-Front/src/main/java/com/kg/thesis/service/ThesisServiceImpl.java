@@ -138,16 +138,16 @@ public class ThesisServiceImpl implements ThesisService {
 	@Override
 	//UNFINISHED validation of lack of promoter!!!
 	public void addStudent(StudentDTO studentDTO) throws ThesisException {
-		if(studentDTO != null) {
-			
+		if(studentDTO != null) {			
 			Student student = StudentDTO.createEntity(studentDTO);
-			Optional<Promoter> optionalPromoter = promoterRepository.findById(student.getPromoter().getPromoterId());
-			Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
-			promoter.setNumberOfStudentsLead(promoter.getNumberOfStudentsLead() + 1);
-			promoterRepository.save(promoter);
+			if(studentDTO.getPromoter() != null) {
+				Optional<Promoter> optionalPromoter = promoterRepository.findById(student.getPromoter().getPromoterId());
+				Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
+				promoter.setNumberOfStudentsLead(promoter.getNumberOfStudentsLead() + 1);
+				promoterRepository.save(promoter);
+			}
 			studentRepository.save(student);
 		} else {
-			//maybe not needed????
 			throw new ThesisException("Service.NO_DATA");
 		}
 		
@@ -160,21 +160,39 @@ public class ThesisServiceImpl implements ThesisService {
 			Promoter promoter = PromoterDTO.createEntity(promoterDTO);
 			promoterRepository.save(promoter);
 		} else {
-			//...
+			throw new ThesisException("Service.NO_DATA");
 		}
 
 	}
 	
 	@Override
 	public void addThesis(ThesisDTO thesisDTO) throws ThesisException {
-		// TODO Auto-generated method stub
+		if(thesisDTO != null) {
+			Thesis thesis = ThesisDTO.createEntity(thesisDTO);
+			thesisRepository.save(thesis);
+		} else {
+			throw new ThesisException("Service.NO_DATA");
+		}
 		
 	}
+	
+//	@Override
+//	public void updateThesis(String thesis, Integer studentId) throws ThesisException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void deleteStudent(Integer studentId) throws ThesisException {
 		Optional<Student> optionalStudent = studentRepository.findById(studentId);
 		Student student = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
+		
+		if(student.getPromoter() != null) {
+			Optional<Promoter> optionalPromoter = promoterRepository.findById(student.getPromoter().getPromoterId());
+			Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
+			promoter.setNumberOfStudentsLead(promoter.getNumberOfStudentsLead() - 1);
+			promoterRepository.save(promoter);
+		}
 		studentRepository.delete(student);
 	}
 
@@ -182,18 +200,26 @@ public class ThesisServiceImpl implements ThesisService {
 	public void deletePromoter(Integer promoterId) throws ThesisException {
 		Optional<Promoter> optionalPromoter = promoterRepository.findById(promoterId);
 		Promoter promoter = optionalPromoter.orElseThrow(() -> new ThesisException("Service.NO_PROMOTER_BY_ID"));
+		
+		List<Student> studentList = studentRepository.findByPromoterId(promoterId);
+		studentList.forEach(s -> {
+			s.setPromoter(null);
+			studentRepository.save(s);
+		});
 		promoterRepository.delete(promoter);
 	}
 
 	@Override
-	public void updateThesis(String thesis, Integer studentId) throws ThesisException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void deleteThesis(Integer thesisId) throws ThesisException {
-		// TODO Auto-generated method stub
+		Optional<Thesis> optionalThesis = thesisRepository.findById(thesisId);
+		Thesis thesis = optionalThesis.orElseThrow(() -> new ThesisException("Service.NO_THESIS_BY_ID"));
+		
+		List<Student> studentList = studentRepository.findByThesisId(thesisId);
+		studentList.forEach(s -> {
+			s.setThesis(null);
+			studentRepository.save(s);
+		});
+		thesisRepository.delete(thesis);
 		
 	}
 

@@ -18,7 +18,7 @@ public interface ThesisService {
 	public void addStudent(StudentDTO studentDTO) throws ThesisException ;
 	public void addPromoter(PromoterDTO promoterDTO) throws ThesisException ;
 	public void addThesis(ThesisDTO thesisDTO) throws ThesisException;
-	public void updateThesis(String thesis, Integer studentId) throws ThesisException ;
+	//public void updateThesis(String thesis, Integer studentId) throws ThesisException ;
 	public void deleteStudent(Integer studentId) throws ThesisException;
 	public void deletePromoter(Integer promoterId) throws ThesisException;
 	public void deleteThesis(Integer thesisId) throws ThesisException;
