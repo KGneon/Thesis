@@ -13,7 +13,6 @@ import com.kg.thesis.dto.ThesisDTO;
 import com.kg.thesis.entity.Promoter;
 import com.kg.thesis.entity.Student;
 import com.kg.thesis.entity.Thesis;
-import com.kg.thesis.entity.ThesisType;
 import com.kg.thesis.exception.ThesisException;
 import com.kg.thesis.repository.PromoterRepository;
 import com.kg.thesis.repository.StudentRepository;
@@ -37,11 +36,34 @@ public class ThesisServiceImpl implements ThesisService {
 		if (studentList != null) {
 			List<StudentDTO> studentDTOList = new ArrayList<>();
 			studentList.forEach(s -> {
-				StudentDTO studentDTO = new StudentDTO();
-				studentDTO = StudentDTO.createDTO(s);
+				StudentDTO studentDTO = StudentDTO.createDTO(s);
 				studentDTOList.add(studentDTO);
 			});
 			return studentDTOList;
+		} else {
+			throw new ThesisException("Service.EMPTY_STUDENTS_LIST");
+		}
+	}
+	
+	@Override
+	public List<StudentDTO> getStudentsWithDoubtfulThesis(Boolean notMatchedOrBlank) throws ThesisException {
+		List<Student> studentList = studentRepository.findAll();
+		if(!studentList.isEmpty()) {
+			List<StudentDTO> studentDTOList = new ArrayList<>();
+			studentList.forEach(s -> {
+				if(notMatchedOrBlank == true && s.getPromoter().getField() != s.getThesis().getThesisField()) {
+					StudentDTO studentDTO = StudentDTO.createDTO(s);
+					studentDTOList.add(studentDTO);
+				}
+				if(notMatchedOrBlank == false && s.getThesis() == null) {
+					StudentDTO studentDTO = StudentDTO.createDTO(s);
+					studentDTOList.add(studentDTO);
+				}
+			});
+			
+			if(studentDTOList.isEmpty()) throw new ThesisException("Service.NO_DOUBTFUL_THESIS");
+			else return studentDTOList;
+			
 		} else {
 			throw new ThesisException("Service.EMPTY_STUDENTS_LIST");
 		}
@@ -53,10 +75,8 @@ public class ThesisServiceImpl implements ThesisService {
 		if (promoterList != null) {
 			List<PromoterDTO> promoterDTOList = new ArrayList<>();
 			promoterList.forEach(p -> {
-				PromoterDTO promoterDTO = new PromoterDTO();
-				promoterDTO = PromoterDTO.createDTO(p);
+				PromoterDTO promoterDTO = PromoterDTO.createDTO(p);
 				promoterDTOList.add(promoterDTO);
-
 			});
 			return promoterDTOList;
 		} else {
@@ -65,38 +85,48 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 
 	@Override
+	public List<PromoterDTO> getPromotersWithPossibleStudentAllocation() throws ThesisException {
+		List<Promoter> promoterList = promoterRepository.findAll();
+		List<PromoterDTO> promoterDTOList = new ArrayList<>();
+		promoterList.forEach(p -> {
+			if(p.getNumberOfStudentsLead() < 5) {
+				PromoterDTO promoterDTO = PromoterDTO.createDTO(p);
+				promoterDTOList.add(promoterDTO);
+			}	
+		});
+		return promoterDTOList;
+	}
+	
+	@Override
+	public List<PromoterDTO> getPromotersByStudentsLead(Integer studentsLead) throws ThesisException {
+		List<Promoter> promoterList = promoterRepository.findByNumberOfStudentsLeadAsc(studentsLead);
+		if(promoterList.isEmpty()) throw new ThesisException("Service.NO_PROMOTERS_WITH_THAT_LEAD");
+		else {
+			List<PromoterDTO> promoterDTOList = new ArrayList<>(); 
+			promoterList.forEach(p -> {
+				PromoterDTO promoterDTO = PromoterDTO.createDTO(p);
+				promoterDTOList.add(promoterDTO);
+				
+			});
+			return promoterDTOList;
+		}
+	}
+	
+	@Override
 	public List<ThesisDTO> getThesis() throws ThesisException {
 		List<Thesis> thesisList = thesisRepository.findAll();
 		if (thesisList != null) {
 			List<ThesisDTO> thesisDTOList = new ArrayList<>();
 			thesisList.forEach(p -> {
-				ThesisDTO thesisDTO = new ThesisDTO();
-				thesisDTO = ThesisDTO.createDTO(p);
+				ThesisDTO thesisDTO = ThesisDTO.createDTO(p);
 				thesisDTOList.add(thesisDTO);
-
 			});
 			return thesisDTOList;
 		} else {
 			throw new ThesisException("Service.Service.NO_THESIS");
 		}
 	}
-
-	@Override
-	//UNFINISHED!!!
-	public List<PromoterDTO> getPromoterByStudentsLead(Integer studentsLead) throws ThesisException {
-		List<Promoter> promoterList = promoterRepository.findAll();
-		List<PromoterDTO> promoterDTOListByLeadsNumber = new ArrayList<>();
-		promoterList.forEach(p -> {
-			if(p.getNumberOfStudentsLead() < 5) {
-				PromoterDTO promoterDTO = new PromoterDTO();
-				promoterDTO = PromoterDTO.createDTO(p);
-				promoterDTOListByLeadsNumber.add(promoterDTO);
-			}
-			//else throw new ThesisException("Service.TO_MANY_LEADS");		
-		});
-		return promoterDTOListByLeadsNumber;
-	}
-
+	
 	@Override
 	public StudentDTO getStudentById(Integer studentId) throws ThesisException {
 		Optional<Student> optionalStudent= studentRepository.findById(studentId);
@@ -133,6 +163,12 @@ public class ThesisServiceImpl implements ThesisService {
 			//...
 		}
 
+	}
+	
+	@Override
+	public void addThesis(ThesisDTO thesisDTO) throws ThesisException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
