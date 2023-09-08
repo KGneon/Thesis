@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,9 @@ import com.kg.thesis.entity.Student;
 import com.kg.thesis.exception.ThesisException;
 import com.kg.thesis.service.ThesisService;
 
+@CrossOrigin
 @RestController
-@RequestMapping(value="/thesis")
+@RequestMapping(value="/api")
 @Validated
 public class ThesisApi {
 	
@@ -36,6 +38,13 @@ public class ThesisApi {
 	@Autowired
 	Environment environment;
 		
+	//not working, trying new...
+	@GetMapping(value="/studentas")
+	public List<StudentDTO> getStudents() throws ThesisException{
+		List<StudentDTO> listOfStudents = thesisService.getStudents();
+		return listOfStudents;
+	}
+	
 	@GetMapping(value="/students")
 	public ResponseEntity<List<StudentDTO>> getAllStudents() throws ThesisException{
 		List<StudentDTO> listOfStudents = thesisService.getStudents();
