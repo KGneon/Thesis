@@ -76,8 +76,8 @@ public class ThesisApi {
 	}
 	
 	@GetMapping(value="/thesis")
-	public ResponseEntity<List<ThesisDTO>> getAllThesis() throws ThesisException{
-		List<ThesisDTO> listOfThesis = thesisService.getThesis();
+	public ResponseEntity<List<ThesisDTO>> getAllTheses() throws ThesisException{
+		List<ThesisDTO> listOfThesis = thesisService.getTheses();
 		return new ResponseEntity<>(listOfThesis, HttpStatus.OK);
 	}
 	

@@ -13,7 +13,7 @@ public interface ThesisService {
 	public List<PromoterDTO> getPromoters() throws ThesisException ;
 	public List<PromoterDTO> getPromotersWithPossibleStudentAllocation() throws ThesisException;
 	public List<PromoterDTO> getPromotersByStudentsLead(Integer studentsLead) throws ThesisException ;
-	public List<ThesisDTO> getThesis() throws ThesisException;
+	public List<ThesisDTO> getTheses() throws ThesisException;
 	public StudentDTO getStudentById(Integer studentId) throws ThesisException ;
 	public void addStudent(StudentDTO studentDTO) throws ThesisException ;
 	public void addPromoter(PromoterDTO promoterDTO) throws ThesisException ;

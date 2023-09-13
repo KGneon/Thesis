@@ -117,7 +117,7 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 	
 	@Override
-	public List<ThesisDTO> getThesis() throws ThesisException {
+	public List<ThesisDTO> getTheses() throws ThesisException {
 		List<Thesis> thesisList = thesisRepository.findAll();
 		if (thesisList != null) {
 			List<ThesisDTO> thesisDTOList = new ArrayList<>();
