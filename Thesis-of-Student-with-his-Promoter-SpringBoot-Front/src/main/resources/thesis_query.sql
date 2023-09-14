@@ -6,7 +6,7 @@ USE thesis_db;
 
 -- Create the Promoter table
 CREATE TABLE Promoter (
-    promoter_id INT PRIMARY KEY,
+    promoter_id INT AUTO_INCREMENT  PRIMARY KEY,
     promoter_name VARCHAR(255) NOT NULL,
     promoter_surname VARCHAR(255) NOT NULL,
     field VARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE Promoter (
 
 -- Create the Thesis table
 CREATE TABLE Thesis (
-	thesis_id INT PRIMARY KEY,
+	thesis_id INT AUTO_INCREMENT  PRIMARY KEY,
 	thesis_name VARCHAR(50) NOT NULL,
 	thesis_field VARCHAR(50) NOT NULL,
 	thesis_type VARCHAR(50) NOT NULL

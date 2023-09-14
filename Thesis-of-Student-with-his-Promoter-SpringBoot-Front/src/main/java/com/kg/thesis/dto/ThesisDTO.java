@@ -36,7 +36,7 @@ public class ThesisDTO {
 	
 	public static Thesis createEntity(ThesisDTO thesisDTO) {
 		Thesis thesis = new Thesis();
-		//thesis.setThesisId(thesisDTO.getThesisId());
+		thesis.setThesisId(thesisDTO.getThesisId());
 		thesis.setThesisName(thesisDTO.getThesisName());
 		thesis.setThesisField(thesisDTO.getThesisField());
 		thesis.setThesisType(thesisDTO.getThesisType());

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kg.thesis.dto.PromoterDTO;
@@ -60,7 +61,7 @@ public class ThesisController {
 	@PostMapping("/saveStudent")
 	public String saveStudent(@ModelAttribute("student") StudentDTO studentDTO) throws ThesisException {
 		thesisService.addStudent(studentDTO);
-		return "redirect:/showAllStudents";
+		return "redirect:/students";
 	}
 	
 	//model for promoter addition
@@ -76,7 +77,7 @@ public class ThesisController {
 	@PostMapping("/savePromoter")
 	public String savePromoter(@ModelAttribute("promoter") PromoterDTO promoterDTO) throws ThesisException {
 		thesisService.addPromoter(promoterDTO);
-		return "redirect:/showAllPromoters";
+		return "redirect:/promoters";
 	}
 	
 	//model for thesis addition
@@ -92,7 +93,30 @@ public class ThesisController {
 	@PostMapping("/saveThesis")
 	public String saveThesis(@ModelAttribute("thesis") ThesisDTO thesisDTO) throws ThesisException {
 		thesisService.addThesis(thesisDTO);
-		return "redirect:/showAllTheses";
+		return "redirect:/theses";
 	}
+	
+	//UPDATE
+	
+	@GetMapping("/studentUpdateForm/{id}")
+	 public String showStudentUpdateForm(@PathVariable ( value = "id") Integer id, Model model) throws ThesisException {
+	  StudentDTO studentDTO = thesisService.getStudentById(id);
+	  model.addAttribute("student", studentDTO);
+	  return "updateStudent";
+	 }
+	
+	@GetMapping("/promoterUpdateForm/{id}")
+	 public String showPromoterUpdateForm(@PathVariable ( value = "id") Integer id, Model model) throws ThesisException {
+	  PromoterDTO promoterDTO = thesisService.getPromoterById(id);
+	  model.addAttribute("promoter", promoterDTO);
+	  return "updatePromoter";
+	 }
+	
+	@GetMapping("/thesisUpdateForm/{id}")
+	 public String showThesisUpdateForm(@PathVariable ( value = "id") Integer id, Model model) throws ThesisException {
+	  ThesisDTO thesisDTO = thesisService.getThesisById(id);
+	  model.addAttribute("thesis", thesisDTO);
+	  return "updateThesis";
+	 }
 
 }

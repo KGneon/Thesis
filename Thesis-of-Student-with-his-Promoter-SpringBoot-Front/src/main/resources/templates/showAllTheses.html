@@ -26,6 +26,7 @@
 					<th>Name</th>
 					<th>Thesis Field</th>
 					<th>Thesis Type</th>
+					<th>Actions</th>
 					<!--<th>Student Id</th>
 				<th>Student Name</th>-->
 				</tr>
@@ -36,6 +37,7 @@
 					<td th:text="${thesis.thesisName}"></td>
 					<td th:text="${thesis.thesisField}"></td>
 					<td th:text="${thesis.thesisType}"></td>
+					<td><a th:href="@{/thesisUpdateForm/{id}(id=${thesis.thesisId})}" class="btn btn-primary">Update</a></td>
 				</tr>
 			</tbody>
 		</table>

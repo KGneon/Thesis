@@ -138,6 +138,22 @@ public class ThesisServiceImpl implements ThesisService {
 		StudentDTO studentDTO = StudentDTO.createDTO(student);
 		return studentDTO;
 	}
+	
+	@Override
+	public PromoterDTO getPromoterById(Integer promoterId) throws ThesisException {
+		Optional<Promoter> optionalStudent= promoterRepository.findById(promoterId);
+		Promoter promoter = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
+		PromoterDTO promoterDTO = PromoterDTO.createDTO(promoter);
+		return promoterDTO;
+	}
+	
+	@Override
+	public ThesisDTO getThesisById(Integer thesisId) throws ThesisException {
+		Optional<Thesis> optionalStudent= thesisRepository.findById(thesisId);
+		Thesis thesis = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
+		ThesisDTO thesisDTO = ThesisDTO.createDTO(thesis);
+		return thesisDTO;
+	}
 
 	@Override
 	//UNFINISHED validation of lack of promoter!!!
@@ -179,12 +195,7 @@ public class ThesisServiceImpl implements ThesisService {
 		}
 		
 	}
-	
-//	@Override
-//	public void updateThesis(String thesis, Integer studentId) throws ThesisException {
-//		// TODO Auto-generated method stub
-//		
-//	}
+
 
 	@Override
 	public void deleteStudent(Integer studentId) throws ThesisException {

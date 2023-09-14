@@ -27,6 +27,7 @@
 					<th>Surname</th>
 					<th>Field</th>
 					<th>Number of Students Lead</th>
+					<th>Actions</th>
 					<!--<th>Student Id</th>
 				<th>Student Name</th>-->
 				</tr>
@@ -38,6 +39,7 @@
 					<td th:text="${promoter.promoterSurname}"></td>
 					<td th:text="${promoter.field}"></td>
 					<td th:text="${promoter?.numberOfStudentsLead}"></td>
+					<td><a th:href="@{/promoterUpdateForm/{id}(id=${promoter.promoterId})}" class="btn btn-primary">Update</a></td>
 				</tr>
 			</tbody>
 		</table>
