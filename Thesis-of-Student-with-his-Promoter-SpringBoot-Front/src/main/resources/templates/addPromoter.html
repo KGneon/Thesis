@@ -20,8 +20,8 @@
 		</div>
 		<hr>
 		<div align="center">
-			<h2 class="text-center">Add promoter</h2>
-
+			<h2 class="text-center border border-dark bg-success col-4">Add new promoter</h2>
+			<hr>
 			<form action="#" th:action="@{/savePromoter}" th:object="${promoter}" method="POST">
 				<input type="text" th:field="*{promoterName}" placeholder="Promoter First Name"
 					class="form-control mb-4 col-4">

@@ -17,10 +17,11 @@
 			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3 col-2"> Back to home page </a>
 			<a th:href="@{/addNewStudentForm}" class="btn btn-primary btn-sm mb-3 col-2"> Add student </a>
 		</div>
+		<hr>
 		<div align="center">
 			<h2> Students attempting to defend their theses: </h2>
 			<table border="1" class="table table-striped table-responsive-md">
-				<thread>
+				<thead class="thead-light">
 					<tr>
 						<th>Id</th>
 						<th>Name</th>
@@ -29,7 +30,7 @@
 						<th>Promoter Name</th>
 						<th>Actions</th>
 					</tr>
-				</thread>
+				</thead>
 				<tbody>
 					<tr th:each="student : ${listOfStudents}">
 						<td th:text="${student?.studentId}"></td>
