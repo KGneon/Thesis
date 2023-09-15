@@ -9,10 +9,18 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Thesis Management Application</h1>
-        <hr>
-        <h2>Update promoter</h2>
+	<div class="container">
+		<div class="text-center">
+			<h1>Thesis Management Application</h1>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3 col-2"> Back to home page </a>
+			<a th:href="@{/promoters}" class="btn btn-primary btn-sm mb-3 col-2"> All promoters </a>
+		</div>
+		<hr>
+	
+	<div align="center">
+        <h2 class="text-center">Update promoter</h2>
 
         <form action="#" th:action="@{/saveThesis}" th:object="${promoter}" method="POST">
 
@@ -29,10 +37,7 @@
 
             <button type="submit" class="btn btn-info col-2">Update promoter</button>
         </form>
-
-        <hr>
-
-        <a th:href="@{/}"> Back to home page</a>
+    </div>
     </div>
 </body>
 

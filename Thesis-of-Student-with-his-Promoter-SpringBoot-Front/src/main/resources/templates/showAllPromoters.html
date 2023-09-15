@@ -9,40 +9,47 @@
 </head>
 
 <body>
-	<div>
-		<h1>Thesis Management Application</h1>
-	</div>
-	<div>
-		<a th:href="@{/}" class="btn btn-primary btn-sm mb-3"> Back to home page </a>
-		<a th:href="@{/addPromoter}" class="btn btn-primary btn-sm mb-3"> Add promoter </a>
-	</div>
-	<div align="center" class="container my-2">
+	<div class="container">
+		<div class="text-center">
+			<h1>Thesis Management Application</h1>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3 col-2"> Back to home page </a>
+			<a th:href="@{/addNewPromoterForm}" class="btn btn-primary btn-sm mb-3 col-2"> Add promoter </a>
+		</div>
+		<div align="center">
 
-<h2> All promoters selected for leading student's thesis: </h2>
-		<table border="1" class="table table-striped table-responsive-md">
-			<thread>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Surname</th>
-					<th>Field</th>
-					<th>Number of Students Lead</th>
-					<th>Actions</th>
-					<!--<th>Student Id</th>
+			<h2> All promoters selected for leading student's thesis: </h2>
+			<table border="1" class="table table-striped table-responsive-md">
+				<thread>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Surname</th>
+						<th>Field</th>
+						<th>Number of Students Lead</th>
+						<th>Actions</th>
+						<!--<th>Student Id</th>
 				<th>Student Name</th>-->
-				</tr>
-			</thread>
-			<tbody>
-				<tr th:each="promoter : ${listOfPromoters}">
-					<td th:text="${promoter.promoterId}"></td>
-					<td th:text="${promoter.promoterName}"></td>
-					<td th:text="${promoter.promoterSurname}"></td>
-					<td th:text="${promoter.field}"></td>
-					<td th:text="${promoter?.numberOfStudentsLead}"></td>
-					<td><a th:href="@{/promoterUpdateForm/{id}(id=${promoter.promoterId})}" class="btn btn-primary">Update</a></td>
-				</tr>
-			</tbody>
-		</table>
+					</tr>
+				</thread>
+				<tbody>
+					<tr th:each="promoter : ${listOfPromoters}">
+						<td th:text="${promoter.promoterId}"></td>
+						<td th:text="${promoter.promoterName}"></td>
+						<td th:text="${promoter.promoterSurname}"></td>
+						<td th:text="${promoter.field}"></td>
+						<td th:text="${promoter?.numberOfStudentsLead}"></td>
+						<td>
+							<a th:href="@{/promoterUpdateForm/{id}(id=${promoter.promoterId})}"
+								class="btn btn-warning btn-sm mb-3">Update</a>
+							<a th:href="@{/promoterDeleteForm/{id}(id=${promoter.promoterId})}"
+								class="btn btn-danger btn-sm mb-3">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 

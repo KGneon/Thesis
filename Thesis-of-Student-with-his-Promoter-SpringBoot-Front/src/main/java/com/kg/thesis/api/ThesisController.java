@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kg.thesis.dto.PromoterDTO;
 import com.kg.thesis.dto.StudentDTO;
@@ -18,16 +20,17 @@ import com.kg.thesis.service.ThesisService;
 //TRAINING CONTROLLER FOR THYMELEAF
 @Controller
 public class ThesisController {
-	
+
 	@Autowired
 	ThesisService thesisService;
-	
+
 	@GetMapping("/")
-	public String homePage(ModelMap map) { //TO JEST ODNIESIENIE DO PLIKU HTML
-		map.put("homeview", "What you want to do?"); //TO JEST ODNIESIENIE DO ${} W PLIKU
+	public String homePage(ModelMap map) { // TO JEST ODNIESIENIE DO PLIKU HTML
+		map.put("homeview", "What you want to do?"); // TO JEST ODNIESIENIE DO ${} W PLIKU
 		return "homePage";
 	}
-	
+
+	// SHOWING ALL STUDENTS, PROMOTERS, THESES
 	@GetMapping("/students")
 	public String allStudentsPage(Model model) throws ThesisException {
 		model.addAttribute("listOfStudents", thesisService.getStudents());
@@ -39,84 +42,121 @@ public class ThesisController {
 		model.addAttribute("listOfPromoters", thesisService.getPromoters());
 		return "showAllPromoters";
 	}
-	
+
 	@GetMapping("/theses")
 	public String allThesisPage(Model model) throws ThesisException {
 		model.addAttribute("listOfTheses", thesisService.getTheses());
 		return "showAllTheses";
 	}
-	
-	//ADDING STUDENT, PROMOTER, THESIS
-	
-	//model for student addition
-	@GetMapping("/addStudent")
-	 public String newStudentForm(Model model) {
-	     // create model attribute to bind form data
+
+	// ADDING STUDENT, PROMOTER, THESIS
+	// model for student addition
+	@GetMapping("/addNewStudentForm")
+	public String newStudentForm(Model model) {
+		// create model attribute to bind form data
 		StudentDTO studentDTO = new StudentDTO();
-	     model.addAttribute("student", studentDTO);
-	     return "addNewStudent";
+		model.addAttribute("student", studentDTO);
+		return "addStudent";
 	}
-	
-	//accepting and saving student
+
+	// model for promoter addition
+	@GetMapping("/addNewPromoterForm")
+	public String newPromoterForm(Model model) {
+		// create model attribute to bind form data
+		PromoterDTO promoterDTO = new PromoterDTO();
+		model.addAttribute("promoter", promoterDTO);
+		return "addPromoter";
+	}
+
+	// model for thesis addition
+	@GetMapping("/addNewThesisForm")
+	public String newThesisForm(Model model) {
+		// create model attribute to bind form data
+		ThesisDTO thesisDTO = new ThesisDTO();
+		model.addAttribute("thesis", thesisDTO);
+		return "addThesis";
+	}
+
+	// UPDATE
+	@GetMapping("/studentUpdateForm/{id}")
+	public String updateStudentForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		StudentDTO studentDTO = thesisService.getStudentById(id);
+		model.addAttribute("student", studentDTO);
+		return "updateStudent";
+	}
+
+	@GetMapping("/promoterUpdateForm/{id}")
+	public String updatePromoterForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		PromoterDTO promoterDTO = thesisService.getPromoterById(id);
+		model.addAttribute("promoter", promoterDTO);
+		return "updatePromoter";
+	}
+
+	@GetMapping("/thesisUpdateForm/{id}")
+	public String updateThesisForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		ThesisDTO thesisDTO = thesisService.getThesisById(id);
+		model.addAttribute("thesis", thesisDTO);
+		return "updateThesis";
+	}
+
+	// POST request just to accept saving new or updated entities
+	// accepting and saving student
 	@PostMapping("/saveStudent")
 	public String saveStudent(@ModelAttribute("student") StudentDTO studentDTO) throws ThesisException {
 		thesisService.addStudent(studentDTO);
 		return "redirect:/students";
 	}
-	
-	//model for promoter addition
-	@GetMapping("/addPromoter")
-	 public String newPromoterForm(Model model) {
-	     // create model attribute to bind form data
-		PromoterDTO promoterDTO = new PromoterDTO();
-	     model.addAttribute("promoter", promoterDTO);
-	     return "addNewPromoter";
-	}
-	
-	//accepting and saving promoter
+
+	// accepting and saving promoter
 	@PostMapping("/savePromoter")
 	public String savePromoter(@ModelAttribute("promoter") PromoterDTO promoterDTO) throws ThesisException {
 		thesisService.addPromoter(promoterDTO);
 		return "redirect:/promoters";
 	}
-	
-	//model for thesis addition
-	@GetMapping("/addThesis")
-	 public String newThesisForm(Model model) {
-	     // create model attribute to bind form data
-		ThesisDTO thesisDTO = new ThesisDTO();
-	     model.addAttribute("thesis", thesisDTO);
-	     return "addNewThesis";
-	}
-	
-	//accepting and saving thesis
+
+	// accepting and saving thesis
 	@PostMapping("/saveThesis")
 	public String saveThesis(@ModelAttribute("thesis") ThesisDTO thesisDTO) throws ThesisException {
 		thesisService.addThesis(thesisDTO);
 		return "redirect:/theses";
 	}
-	
-	//UPDATE
-	
-	@GetMapping("/studentUpdateForm/{id}")
-	 public String showStudentUpdateForm(@PathVariable ( value = "id") Integer id, Model model) throws ThesisException {
-	  StudentDTO studentDTO = thesisService.getStudentById(id);
-	  model.addAttribute("student", studentDTO);
-	  return "updateStudent";
-	 }
-	
-	@GetMapping("/promoterUpdateForm/{id}")
-	 public String showPromoterUpdateForm(@PathVariable ( value = "id") Integer id, Model model) throws ThesisException {
-	  PromoterDTO promoterDTO = thesisService.getPromoterById(id);
-	  model.addAttribute("promoter", promoterDTO);
-	  return "updatePromoter";
-	 }
-	
-	@GetMapping("/thesisUpdateForm/{id}")
-	 public String showThesisUpdateForm(@PathVariable ( value = "id") Integer id, Model model) throws ThesisException {
-	  ThesisDTO thesisDTO = thesisService.getThesisById(id);
-	  model.addAttribute("thesis", thesisDTO);
-	  return "updateThesis";
-	 }
+
+	/////////////
+	// getting models for deletion
+	@GetMapping("/studentDeleteForm/{id}")
+	public String deleteStudentForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		StudentDTO studentDTO = thesisService.getStudentById(id);
+		model.addAttribute("student", studentDTO);
+		return "deleteStudent";
+	}
+	@GetMapping("/promoterDeleteForm/{id}")
+	public String deletePromoterForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		PromoterDTO promoterDTO = thesisService.getPromoterById(id);
+		model.addAttribute("promoter", promoterDTO);
+		return "deletePromoter";
+	}
+	@GetMapping("/thesisDeleteForm/{id}")
+	public String deleteThesisForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		ThesisDTO thesisDTO = thesisService.getThesisById(id);
+		model.addAttribute("thesis", thesisDTO);
+		return "deleteThesis";
+	}
+
+	// POST request after accepting the deletion to DELETE
+	@PostMapping("/deleteStudent")
+	public String deleteStudent(@RequestParam("studentId") Integer studentId) throws ThesisException {
+		thesisService.deleteStudent(studentId);
+		return "redirect:/students";
+	}
+	@PostMapping("/deletePromoter")
+	public String deletePromoter(@RequestParam("promoterId") Integer promoterId) throws ThesisException {
+		thesisService.deletePromoter(promoterId);
+		return "redirect:/promoters";
+	}
+	@PostMapping("/deleteThesis")
+	public String deleteThesis(@RequestParam("thesisId") Integer thesisId) throws ThesisException {
+		thesisService.deleteThesis(thesisId);
+		return "redirect:/theses";
+	}
 
 }

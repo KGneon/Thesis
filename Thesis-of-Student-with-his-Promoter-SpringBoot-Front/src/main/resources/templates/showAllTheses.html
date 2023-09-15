@@ -9,38 +9,45 @@
 </head>
 
 <body>
-	<div>
-		<h1>Thesis Management Application</h1>
-	</div>
-	<div>
-		<a th:href="@{/}" class="btn btn-primary btn-sm mb-3"> Back to home page </a>
-		<a th:href="@{/addThesis}" class="btn btn-primary btn-sm mb-3"> Add thesis </a>
-	</div>
-	<div align="center" class="container my-2">
+	<div class="container">
+		<div class="text-center">
+			<h1>Thesis Management Application</h1>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3"> Back to home page </a>
+			<a th:href="@{/addNewThesisForm}" class="btn btn-primary btn-sm mb-3"> Add thesis </a>
+		</div>
+		<div align="center">
 
-		<h2> All thesis: </h2>
-		<table border="1" class="table table-striped table-responsive-md">
-			<thread>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Thesis Field</th>
-					<th>Thesis Type</th>
-					<th>Actions</th>
-					<!--<th>Student Id</th>
+			<h2> All thesis: </h2>
+			<table border="1" class="table table-striped table-responsive-md">
+				<thread>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Thesis Field</th>
+						<th>Thesis Type</th>
+						<th>Actions</th>
+						<!--<th>Student Id</th>
 				<th>Student Name</th>-->
-				</tr>
-			</thread>
-			<tbody>
-				<tr th:each="thesis : ${listOfTheses}">
-					<td th:text="${thesis?.thesisId}"></td>
-					<td th:text="${thesis.thesisName}"></td>
-					<td th:text="${thesis.thesisField}"></td>
-					<td th:text="${thesis.thesisType}"></td>
-					<td><a th:href="@{/thesisUpdateForm/{id}(id=${thesis.thesisId})}" class="btn btn-primary">Update</a></td>
-				</tr>
-			</tbody>
-		</table>
+					</tr>
+				</thread>
+				<tbody>
+					<tr th:each="thesis : ${listOfTheses}">
+						<td th:text="${thesis?.thesisId}"></td>
+						<td th:text="${thesis.thesisName}"></td>
+						<td th:text="${thesis.thesisField}"></td>
+						<td th:text="${thesis.thesisType}"></td>
+						<td>
+							<a th:href="@{/thesisUpdateForm/{id}(id=${thesis.thesisId})}"
+								class="btn btn-warning btn-sm mb-3">Update</a>
+							<a th:href="@{/thesisDeleteForm/{id}(id=${thesis.thesisId})}"
+								class="btn btn-danger btn-sm mb-3">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 
