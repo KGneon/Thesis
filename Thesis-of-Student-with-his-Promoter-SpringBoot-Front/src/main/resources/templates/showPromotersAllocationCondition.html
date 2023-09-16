@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Promoters with possible students allocation</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container">
+		<div class="text-center">
+			<h1>Thesis Management Application</h1>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3 col-2"> Back to home page </a>
+			<a th:href="@{/addNewPromoterForm}" class="btn btn-primary btn-sm mb-3 col-2"> Add promoter </a>
+		</div>
+		<hr>
+		<div align="center">
+
+			<h2>Promoters with possible students allocation:</h2>
+			<table border="1" class="table table-striped table-responsive-md">
+				<thead class="thead-light">
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Surname</th>
+						<th>Field</th>
+						<th class="col-2">Number of Students Lead</thclass>
+						<th>Actions</th>
+						<!--<th>Student Id</th>
+				<th>Student Name</th>-->
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="promoter : ${listOfPossiblePromotersForAllocation}">
+						<td th:text="${promoter.promoterId}"></td>
+						<td th:text="${promoter.promoterName}"></td>
+						<td th:text="${promoter.promoterSurname}"></td>
+						<td th:text="${promoter.field}"></td>
+						<td th:text="${promoter?.numberOfStudentsLead}"></td>
+						<td>
+							<a th:href="@{/promoterUpdateForm/{id}(id=${promoter.promoterId})}"
+								class="btn btn-warning btn-sm mb-3">Update</a>
+							<a th:href="@{/promoterDeleteForm/{id}(id=${promoter.promoterId})}"
+								class="btn btn-danger btn-sm mb-3">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

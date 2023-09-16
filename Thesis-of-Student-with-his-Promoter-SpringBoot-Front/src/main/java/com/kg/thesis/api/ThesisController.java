@@ -129,12 +129,14 @@ public class ThesisController {
 		model.addAttribute("student", studentDTO);
 		return "deleteStudent";
 	}
+
 	@GetMapping("/promoterDeleteForm/{id}")
 	public String deletePromoterForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
 		PromoterDTO promoterDTO = thesisService.getPromoterById(id);
 		model.addAttribute("promoter", promoterDTO);
 		return "deletePromoter";
 	}
+
 	@GetMapping("/thesisDeleteForm/{id}")
 	public String deleteThesisForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
 		ThesisDTO thesisDTO = thesisService.getThesisById(id);
@@ -148,15 +150,31 @@ public class ThesisController {
 		thesisService.deleteStudent(studentId);
 		return "redirect:/students";
 	}
+
 	@PostMapping("/deletePromoter")
 	public String deletePromoter(@RequestParam("promoterId") Integer promoterId) throws ThesisException {
 		thesisService.deletePromoter(promoterId);
 		return "redirect:/promoters";
 	}
+
 	@PostMapping("/deleteThesis")
 	public String deleteThesis(@RequestParam("thesisId") Integer thesisId) throws ThesisException {
 		thesisService.deleteThesis(thesisId);
 		return "redirect:/theses";
+	}
+
+	// GETTERS WITH conditions
+
+	@GetMapping("/promoters/possibleAllocation")
+	public String getPromotersWithPossibleStudentAllocation(Model model) throws ThesisException {
+		model.addAttribute("listOfPossiblePromotersForAllocation", thesisService.getPromotersWithPossibleStudentAllocation());
+		return "showPromotersAllocationCondition";
+	}
+
+	@GetMapping("/students")
+	public String getStudentsWithDoubtfulThesis(Model model) throws ThesisException {
+		model.addAttribute("listOfStudents", thesisService.getStudents());
+		return "showAllStudents";
 	}
 
 }
