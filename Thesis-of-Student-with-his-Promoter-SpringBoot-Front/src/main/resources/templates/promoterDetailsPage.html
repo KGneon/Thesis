@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Promoter details</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container">
+		<div class="text-center">
+			<h1>Thesis Management Application</h1>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3 col-2"> Back to home page </a>
+			<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3 col-2"> Show all students </a>
+			<a th:href="@{/promoters}" class="btn btn-primary btn-sm mb-3 col-2"> Show all promoters </a>
+		</div>
+		<hr>
+		<div align="center">
+			<h2> Promoter details: </h2>
+			<table border="1" class="table table-striped table-responsive-md">
+					<tr>
+						<td>Thesis Id</td>
+						<td th:text="${promoter?.promoterId}"></td>
+					</tr>
+					<tr>
+						<td>Thesis Name</td>
+						<td th:text="${promoter?.promoterName}"></td>
+					</tr>
+					<tr>
+						<td>Thesis Field</td>
+						<td th:text="${promoter?.promoterSurname}"></td>
+					</tr>
+					<tr>
+						<td>Thesis Type</td>
+						<td th:text="${promoter?.field}"></td>
+					</tr>
+					<tr>
+						<td>Thesis Type</td>
+						<td th:text="${promoter?.numberOfStudentsLead}"></td>
+					</tr>
+				</table>
+		</div>
+	</div>
+</body>
+
+</html>

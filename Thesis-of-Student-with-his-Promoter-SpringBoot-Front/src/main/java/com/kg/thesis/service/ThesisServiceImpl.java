@@ -55,7 +55,7 @@ public class ThesisServiceImpl implements ThesisService {
 		if(!studentList.isEmpty()) {
 			List<StudentDTO> studentDTOList = new ArrayList<>();
 			studentList.forEach(s -> {
-				if(notMatchedOrBlank == true && s.getPromoter().getField() != s.getThesis().getThesisField()) {
+				if(notMatchedOrBlank == true && s.getThesis() != null && !s.getPromoter().getField().equals(s.getThesis().getThesisField())) {
 					StudentDTO studentDTO = StudentDTO.createDTO(s);
 					studentDTOList.add(studentDTO);
 				}
@@ -236,6 +236,24 @@ public class ThesisServiceImpl implements ThesisService {
 		});
 		thesisRepository.delete(thesis);
 		
+	}
+
+	@Override
+	public void allocatePromoterToStudent(Integer studentId, Integer promoterId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void assignThesisToStudent(Integer studentId, Integer thesisId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<PromoterDTO> getPromotersBySpecialization(String field) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -18,8 +18,35 @@
 			<a th:href="@{/addNewStudentForm}" class="btn btn-primary btn-sm mb-3 col-2"> Add student </a>
 		</div>
 		<hr>
+		<div class="text-center">
+			<h6 th:if="${showInfoText}" th:text="${infoText}"></h6>
+		</div>
+		<hr>
+		<div class="text-center">
+			<h5> Filters </h5>
+		</div>
+		<div class="d-flex justify-content-center">
+			<form th:if="${showStudentsButton1}" th:action="@{/students/form}" method="post">
+				<button class="btn btn-info btn-sm" type="submit">Show all students</button>
+				<!--	<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3"> Show all students </a>-->
+			</form>
+			<br>
+			<form th:if="${showStudentsBlankThesesButton2}" th:action="@{/students/no_theses/form}" method="post">
+				<button class="btn btn-info btn-sm" type="submit">Show students with no thesis</button>
+				<!--	<a th:href="@{/students/no_theses}" class="btn btn-info btn-sm mb-3"> Show students with no thesis </a>-->
+			</form>
+			<br>
+			<form th:if="${showStudentsWrongThesesButton3}" th:action="@{/students/mismatched_theses_field/form}"
+				method="post">
+				<button class="btn btn-info btn-sm" type="submit">Show students with
+					thesis not matching promoter field of knowledge</button>
+				<!--<a th:href="@{/students/mismatched_theses_field}" class="btn btn-info btn-sm mb-3"> Show students with
+					thesis not matching promoter field of knowledge </a>-->
+			</form>
+		</div>
+		<hr>
 		<div align="center">
-			<h2> Students attempting to defend their theses: </h2>
+			<h2 th:text="${studentsSearchText}"> Students attempting to defend their theses: </h2>
 			<table border="1" class="table table-striped table-responsive-md">
 				<thead class="thead-light">
 					<tr>
@@ -34,10 +61,26 @@
 				<tbody>
 					<tr th:each="student : ${listOfStudents}">
 						<td th:text="${student?.studentId}"></td>
-						<td th:text="${student.studentName}"></td>
-						<td th:text="${student.studentSurname}"></td>
-						<td th:text="${student?.thesis?.thesisName}"></td>
-						<td th:text="${student?.promoter?.promoterName}"></td>
+						<td th:text="${student?.studentName}"></td>
+						<td th:text="${student?.studentSurname}"></td>
+						<td>
+							<a th:text="${student?.thesis?.thesisName}"></a>
+							<a th:if="${student.thesis}"
+								th:href="@{/thesisDetails/{id}(id=${student?.thesis?.thesisId})}"
+								class="btn btn-info btn-sm">Details</a>
+							<!--<a th:if="${!student.thesis}"
+								th:href="@{/thesisDetails/{id}(id=${student?.thesis?.thesisId})}"
+								class="btn btn-info btn-sm">Attach existing thesis</a>-->
+						</td>
+						<td>
+							<a th:text="${student?.promoter?.promoterName}"></a>
+							<a th:if="${student.promoter} "
+								th:href="@{/promoterDetails/{id}(id=${student?.promoter?.promoterId})}"
+								class="btn btn-info btn-sm">Details</a>
+							<!--<a th:if="${!student.promoter}"
+								th:href="@{/thesisDetails/{id}(id=${student?.thesis?.thesisId})}"
+								class="btn btn-info btn-sm">Allocate promoter</a>-->
+						</td>
 						<td>
 							<a th:href="@{/studentUpdateForm/{id}(id=${student.studentId})}"
 								class="btn btn-warning btn-sm mb-3">Update</a>

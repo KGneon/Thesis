@@ -11,8 +11,9 @@ public interface ThesisService {
 	public List<StudentDTO> getStudents() throws ThesisException;
 	public List<ThesisDTO> getTheses() throws ThesisException;
 	public List<PromoterDTO> getPromoters() throws ThesisException ;
-	public List<StudentDTO> getStudentsWithDoubtfulThesis(Boolean notMatchedOrBlank) throws ThesisException; 
+	public List<StudentDTO> getStudentsWithDoubtfulThesis(Boolean notMatchedOrBlank) throws ThesisException;
 	public List<PromoterDTO> getPromotersWithPossibleStudentAllocation() throws ThesisException;
+	public List<PromoterDTO> getPromotersBySpecialization(String field);
 	public StudentDTO getStudentById(Integer studentId) throws ThesisException;
 	public PromoterDTO getPromoterById(Integer promoterId) throws ThesisException;
 	public ThesisDTO getThesisById(Integer thesisId) throws ThesisException;
@@ -27,4 +28,5 @@ public interface ThesisService {
 	public void assignThesisToStudent(Integer studentId, Integer thesisId);
 	//change thesis
 	//change promoter (possibly not need in backend)
+	List<PromoterDTO> getPromotersByStudentsLead(Integer studentsLead) throws ThesisException;
 }

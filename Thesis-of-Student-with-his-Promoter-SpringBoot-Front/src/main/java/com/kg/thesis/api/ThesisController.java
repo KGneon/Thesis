@@ -23,6 +23,14 @@ public class ThesisController {
 
 	@Autowired
 	ThesisService thesisService;
+	
+	// fields for controlling buttons
+	private boolean showInfoText = false;
+	private String infoText = " ";
+	private boolean showStudentsButton1 = false;
+    private boolean showStudentsBlankThesesButton2 = true;
+    private boolean showStudentsWrongThesesButton3 = true;
+    private String studentsSearchText = "All students: ";
 
 	@GetMapping("/")
 	public String homePage(ModelMap map) { // TO JEST ODNIESIENIE DO PLIKU HTML
@@ -30,12 +38,19 @@ public class ThesisController {
 		return "homePage";
 	}
 
-	// SHOWING ALL STUDENTS, PROMOTERS, THESES
-	@GetMapping("/students")
-	public String allStudentsPage(Model model) throws ThesisException {
-		model.addAttribute("listOfStudents", thesisService.getStudents());
-		return "showAllStudents";
-	}
+    @GetMapping("/students")
+    public String showAllStudentsPage(Model model) throws ThesisException {
+    	showStudentsButton1 = false;
+        showStudentsBlankThesesButton2 = true;
+        showStudentsWrongThesesButton3 = true;
+        studentsSearchText = "Students attempting to defend their theses:";
+        model.addAttribute("studentsSearchText", studentsSearchText);
+    	model.addAttribute("listOfStudents", thesisService.getStudents());
+        model.addAttribute("showStudentsButton1", showStudentsButton1);
+        model.addAttribute("showStudentsBlankThesesButton2", showStudentsBlankThesesButton2);
+        model.addAttribute("showStudentsWrongThesesButton3", showStudentsWrongThesesButton3);
+        return "showAllStudents";
+    }
 
 	@GetMapping("/promoters")
 	public String allPromotersPage(Model model) throws ThesisException {
@@ -163,18 +178,77 @@ public class ThesisController {
 		return "redirect:/theses";
 	}
 
+	//details pages
+	@GetMapping("/thesisDetails/{id}")
+	public String thesisDetailsForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		ThesisDTO thesisDTO = thesisService.getThesisById(id);
+		model.addAttribute("thesis", thesisDTO);
+		return "thesisDetailsPage";
+	}
+	
+	@GetMapping("/promoterDetails/{id}")
+	public String promoterDetailsForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		PromoterDTO promoterDTO = thesisService.getPromoterById(id);
+		model.addAttribute("promoter", promoterDTO);
+		return "promoterDetailsPage";
+	}
+	
 	// GETTERS WITH conditions
-
-	@GetMapping("/promoters/possibleAllocation")
-	public String getPromotersWithPossibleStudentAllocation(Model model) throws ThesisException {
+	@GetMapping("/promoters/possibleAllocation/{studentId}")
+	public String getPromotersWithPossibleStudentAllocation(@PathVariable(value = "studentId") Integer studentId, Model model) throws ThesisException {
 		model.addAttribute("listOfPossiblePromotersForAllocation", thesisService.getPromotersWithPossibleStudentAllocation());
 		return "showPromotersAllocationCondition";
 	}
 
-	@GetMapping("/students")
-	public String getStudentsWithDoubtfulThesis(Model model) throws ThesisException {
-		model.addAttribute("listOfStudents", thesisService.getStudents());
+	@GetMapping("/students/no_theses")
+	public String getStudentsWithoutThesis(Model model) throws ThesisException {
+		model.addAttribute("studentsSearchText", studentsSearchText);
+		model.addAttribute("listOfStudents", thesisService.getStudentsWithDoubtfulThesis(false));
+		model.addAttribute("showStudentsButton1", showStudentsButton1);
+        model.addAttribute("showStudentsBlankThesesButton2", showStudentsBlankThesesButton2);
+        model.addAttribute("showStudentsWrongThesesButton3", showStudentsWrongThesesButton3);
 		return "showAllStudents";
 	}
+	
+	@GetMapping("/students/mismatched_theses_field")
+	public String getStudentsWithThesisOutOfField(Model model) throws ThesisException {
+		model.addAttribute("studentsSearchText", studentsSearchText);
+		model.addAttribute("listOfStudents", thesisService.getStudentsWithDoubtfulThesis(true));
+		model.addAttribute("showStudentsButton1", showStudentsButton1);
+        model.addAttribute("showStudentsBlankThesesButton2", showStudentsBlankThesesButton2);
+        model.addAttribute("showStudentsWrongThesesButton3", showStudentsWrongThesesButton3);
+		return "showAllStudents";
+	}
+
+	//Switching buttons controlling conditions
+    @PostMapping("/students/form")
+    public String handleButton1() {
+        // Handle button 1 click
+    	studentsSearchText = "Students attempting to defend their theses:";
+    	showStudentsButton1 = false;
+    	showStudentsBlankThesesButton2 = true;
+    	showStudentsWrongThesesButton3 = true;
+        return "redirect:/students";
+    }
+
+    @PostMapping("/students/no_theses/form")
+    public String handleButton2() {
+        // Handle button 2 click
+    	studentsSearchText = "Students with a thesis topic not yet chosen: ";
+    	showStudentsButton1 = true;
+    	showStudentsBlankThesesButton2 = false;
+    	showStudentsWrongThesesButton3 = true;
+        return "redirect:/students/no_theses";
+    }
+
+    @PostMapping("/students/mismatched_theses_field/form")
+    public String handleButton3() {
+        // Handle button 3 click
+    	studentsSearchText = "Students with a thesis topic that does not match the promoter's specialization (field of knowledge): ";
+    	showStudentsButton1 = true;
+    	showStudentsBlankThesesButton2 = true;
+    	showStudentsWrongThesesButton3 = false;
+        return "redirect:/students/mismatched_theses_field";
+    }
 
 }
