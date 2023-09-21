@@ -147,6 +147,14 @@ public class ThesisServiceImpl implements ThesisService {
 		return promoterDTO;
 	}
 	
+	//try
+	public Promoter getPromoterNoDTOById(Integer promoterId) throws ThesisException {
+		Optional<Promoter> optionalStudent= promoterRepository.findById(promoterId);
+		Promoter promoter = optionalStudent.orElseThrow(() -> new ThesisException("Service.NO_STUDENT_BY_ID"));
+		PromoterDTO promoterDTO = PromoterDTO.createDTO(promoter);
+		return promoter;
+	}
+	
 	@Override
 	public ThesisDTO getThesisById(Integer thesisId) throws ThesisException {
 		Optional<Thesis> optionalStudent= thesisRepository.findById(thesisId);
