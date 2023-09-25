@@ -2,10 +2,15 @@ package com.kg.thesis.dto;
 
 import com.kg.thesis.entity.Thesis;
 import com.kg.thesis.entity.ThesisType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class ThesisDTO {
 	private Integer thesisId;
+	@NotNull(message="{thesis.name.notpresent}")
+	@Pattern(regexp="\\b[A-Z][a-zA-Z]*\\b(?:\\s+[A-Z][a-zA-Z]*){0,9}", message="{promoter.name.invalid}")
 	private String thesisName;
+	@NotNull(message="{thesis.field.notpresent}")
 	private String thesisField;
 	private ThesisType thesisType;
 	

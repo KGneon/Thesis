@@ -1,21 +1,20 @@
 package com.kg.thesis.api;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.kg.thesis.dto.PromoterDTO;
 import com.kg.thesis.dto.StudentDTO;
 import com.kg.thesis.dto.ThesisDTO;
 import com.kg.thesis.exception.ThesisException;
 import com.kg.thesis.service.ThesisService;
+
+import java.util.List;
 
 //TRAINING CONTROLLER FOR THYMELEAF
 @Controller
@@ -33,8 +32,8 @@ public class ThesisController {
     private String studentsSearchText = "All students: ";
 
 	@GetMapping("/")
-	public String homePage(ModelMap map) { // TO JEST ODNIESIENIE DO PLIKU HTML
-		map.put("homeview", "What you want to do?"); // TO JEST ODNIESIENIE DO ${} W PLIKU
+	public String homePage(ModelMap map) {
+		map.put("homeview", "What you want to do?");
 		return "homePage";
 	}
 
@@ -88,6 +87,7 @@ public class ThesisController {
 	public String newThesisForm(Model model) {
 		// create model attribute to bind form data
 		ThesisDTO thesisDTO = new ThesisDTO();
+		model.addAttribute("listOfThesisTypes", List.of("BACHELOR", "ENGINEER", "MASTER", "DOCTOR"));
 		model.addAttribute("thesis", thesisDTO);
 		return "addThesis";
 	}
@@ -130,8 +130,14 @@ public class ThesisController {
 	}
 
 	// accepting and saving thesis
-	@PostMapping("/saveThesis")
-	public String saveThesis(@ModelAttribute("thesis") ThesisDTO thesisDTO) throws ThesisException {
+	@PostMapping(path="/saveThesis")
+	public String saveThesis(@ModelAttribute("thesis") @Valid ThesisDTO thesisDTO, BindingResult bindingResult, Model model) throws ThesisException {
+		boolean errorsExists = bindingResult.hasErrors();
+		if(errorsExists) {
+			model.addAttribute("thesis", thesisDTO);
+			model.addAttribute("listOfThesisTypes", List.of("BACHELOR", "ENGINEER", "MASTER", "DOCTOR"));
+			return "addThesis";
+		}
 		thesisService.addThesis(thesisDTO);
 		return "redirect:/theses";
 	}

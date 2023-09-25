@@ -10,10 +10,11 @@ import jakarta.validation.constraints.Pattern;
 
 public class StudentDTO {
 	private Integer studentId;
-	@NotNull(message="{student.name.cannot.be.null}")
-	@Pattern(regexp="[A-Za-z]+", message="{student.name.invalid}")
+	@NotNull(message="{student.name.notpresent}")
+	@Pattern(regexp="[A-Z][a-z]*(?:[ -][A-Z][a-z]*){0,4}", message="{student.name.invalid}")
 	private String studentName;
 	@NotNull(message="{student.surname.cannot.be.null}")
+	@Pattern(regexp="[A-Z][a-z]*(?:[ -][A-Z][a-z]*){0,4}", message="{student.name.invalid}")
 	private String studentSurname;
 	private Thesis thesis;
 	private Promoter promoter;
