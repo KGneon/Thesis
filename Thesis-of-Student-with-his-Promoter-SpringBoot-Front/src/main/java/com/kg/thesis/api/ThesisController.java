@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import com.kg.thesis.dto.PromoterDTO;
@@ -16,7 +17,7 @@ import com.kg.thesis.service.ThesisService;
 
 import java.util.List;
 
-//TRAINING CONTROLLER FOR THYMELEAF
+//CONTROLLER FOR THYMELEAF VERSION OF APP
 @Controller
 public class ThesisController {
 
@@ -62,6 +63,26 @@ public class ThesisController {
 		model.addAttribute("listOfTheses", thesisService.getTheses());
 		return "showAllTheses";
 	}
+	@GetMapping("/studentUpdateForm/{id}")
+	public String updateStudentForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		StudentDTO studentDTO = thesisService.getStudentById(id);
+		model.addAttribute("student", studentDTO);
+		return "updateStudent";
+	}
+
+	@GetMapping("/promoterUpdateForm/{id}")
+	public String updatePromoterForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		PromoterDTO promoterDTO = thesisService.getPromoterById(id);
+		model.addAttribute("promoter", promoterDTO);
+		return "updatePromoter";
+	}
+
+	@GetMapping("/thesisUpdateForm/{id}")
+	public String updateThesisForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
+		ThesisDTO thesisDTO = thesisService.getThesisById(id);
+		model.addAttribute("thesis", thesisDTO);
+		return "updateThesis";
+	}
 
 	// ADDING STUDENT, PROMOTER, THESIS
 	// model for student addition
@@ -84,35 +105,15 @@ public class ThesisController {
 
 	// model for thesis addition
 	@GetMapping("/addNewThesisForm")
-	public String newThesisForm(Model model) {
+	public String newThesisForm(Model model, ThesisDTO thesisDTO) {
 		// create model attribute to bind form data
-		ThesisDTO thesisDTO = new ThesisDTO();
 		model.addAttribute("listOfThesisTypes", List.of("BACHELOR", "ENGINEER", "MASTER", "DOCTOR"));
+		/*ThesisDTO thesisDTO = new ThesisDTO();*/
 		model.addAttribute("thesis", thesisDTO);
 		return "addThesis";
 	}
 
 	// UPDATE
-	@GetMapping("/studentUpdateForm/{id}")
-	public String updateStudentForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
-		StudentDTO studentDTO = thesisService.getStudentById(id);
-		model.addAttribute("student", studentDTO);
-		return "updateStudent";
-	}
-
-	@GetMapping("/promoterUpdateForm/{id}")
-	public String updatePromoterForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
-		PromoterDTO promoterDTO = thesisService.getPromoterById(id);
-		model.addAttribute("promoter", promoterDTO);
-		return "updatePromoter";
-	}
-
-	@GetMapping("/thesisUpdateForm/{id}")
-	public String updateThesisForm(@PathVariable(value = "id") Integer id, Model model) throws ThesisException {
-		ThesisDTO thesisDTO = thesisService.getThesisById(id);
-		model.addAttribute("thesis", thesisDTO);
-		return "updateThesis";
-	}
 
 	// POST request just to accept saving new or updated entities
 	// accepting and saving student
@@ -130,12 +131,9 @@ public class ThesisController {
 	}
 
 	// accepting and saving thesis
-	@PostMapping(path="/saveThesis")
-	public String saveThesis(@ModelAttribute("thesis") @Valid ThesisDTO thesisDTO, BindingResult bindingResult, Model model) throws ThesisException {
-		boolean errorsExists = bindingResult.hasErrors();
-		if(errorsExists) {
-			model.addAttribute("thesis", thesisDTO);
-			model.addAttribute("listOfThesisTypes", List.of("BACHELOR", "ENGINEER", "MASTER", "DOCTOR"));
+	@PostMapping("/addNewThesisForm")
+	public String saveThesis(@Valid ThesisDTO thesisDTO, BindingResult result, Model model) throws ThesisException {
+		if (result.hasErrors()) {
 			return "addThesis";
 		}
 		thesisService.addThesis(thesisDTO);

@@ -37,30 +37,88 @@ public class ThesisApi {
 	
 	@Autowired
 	Environment environment;
-		
-	//not working, trying new...
-	@GetMapping(value="/studentas")
-	public List<StudentDTO> getStudents() throws ThesisException{
-		List<StudentDTO> listOfStudents = thesisService.getStudents();
-		return listOfStudents;
-	}
-	
+
+	//GET ALL
 	@GetMapping(value="/students")
 	public ResponseEntity<List<StudentDTO>> getAllStudents() throws ThesisException{
 		List<StudentDTO> listOfStudents = thesisService.getStudents();
 		return new ResponseEntity<>(listOfStudents, HttpStatus.OK);
 	}
-	//OGARNĄĆ
+	@GetMapping(value="/promoters")
+	public ResponseEntity<List<PromoterDTO>> getAllPromoters() throws ThesisException{
+		List<PromoterDTO> listOfPromoters = thesisService.getPromoters();
+		return new ResponseEntity<>(listOfPromoters, HttpStatus.OK);
+	}
+	@GetMapping(value="/theses")
+	public ResponseEntity<List<ThesisDTO>> getAllTheses() throws ThesisException{
+		List<ThesisDTO> listOfTheses = thesisService.getTheses();
+		return new ResponseEntity<>(listOfTheses, HttpStatus.OK);
+	}
+	//POST (ADD)
+	@PostMapping(value="/students/add")
+	public ResponseEntity<String> addStudent(@RequestBody StudentDTO studentDTO) throws ThesisException{
+		thesisService.addStudent(studentDTO);
+		String message = "API.STUDENT_ADDED";
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	}
+	@PostMapping(value="/promoters/add")
+	public ResponseEntity<String> addPromoter(@RequestBody PromoterDTO promoterDTO) throws ThesisException{
+		thesisService.addPromoter(promoterDTO);
+		String message = "API.PROMOTER_ADDED";
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	}
+	@PostMapping(value="/theses/add")
+	public ResponseEntity<String> addThesis(@RequestBody ThesisDTO thesisDTO) throws ThesisException{
+		thesisService.addThesis(thesisDTO);
+		String message = "API.THESIS_ADDED";
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	}
+	//UPDATE
+	//do ogarniecia
+	@PutMapping(value="/thesis/update")
+	public ResponseEntity<String> updateThesisOfStudent(@RequestBody ThesisDTO thesisDTO) throws ThesisException{
+		//thesisService.addThesis(thesisDTO);
+		String message = "";
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	//do ogarniecia
+	@PutMapping(value="/promoter/{studentId}/{promoterId}")
+	public ResponseEntity<String> updatePromoterOfStudent(@PathVariable Integer studentId, @PathVariable Integer promoterId) throws ThesisException{
+
+		String message = "";
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	//DELETE
+	@DeleteMapping(value="/students/{studentId}")
+	public ResponseEntity<String> deleteStudent(@PathVariable Integer studentId) throws ThesisException{
+		thesisService.deleteStudent(studentId);
+		String message = "API.STUDENT_DELETED";
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	@DeleteMapping(value="/promoters/{promoterId}")
+	public ResponseEntity<String> deletePromoter(@PathVariable Integer promoterId) throws ThesisException{
+		thesisService.deletePromoter(promoterId);
+		String message = "API.PROMOTER_DELETED";
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	@DeleteMapping(value="/thesis/{thesisId}")
+	public ResponseEntity<String> deleteThesis(@PathVariable Integer thesisId) throws ThesisException{
+		thesisService.deleteThesis(thesisId);
+		String message = "API.THESIS_DELETED";
+		return new ResponseEntity<>(message, HttpStatus.OK);
+	}
+	//GET ONE
+	@GetMapping(value="/students/{id}")
+	public ResponseEntity<StudentDTO> getStudentById(@PathVariable("id") Integer studentId) throws ThesisException{
+		StudentDTO studentDTO = thesisService.getStudentById(studentId);
+		return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+	}
+
+	//OTHER
 	@GetMapping(value="/students/{matched}")
 	public ResponseEntity<List<StudentDTO>> getStudentsWithDoubtfulThesis(@PathVariable("matched") Boolean notMatchedOrBlank)  throws ThesisException{
 		List<StudentDTO> listOfStudents = thesisService.getStudentsWithDoubtfulThesis(notMatchedOrBlank);
 		return new ResponseEntity<>(listOfStudents, HttpStatus.OK);
-	}
-	
-	@GetMapping(value="/promoters")
-	public ResponseEntity<List<PromoterDTO>> getAllPromoters() throws ThesisException{
-		List<PromoterDTO> listOfPromoters = thesisService.getPromoters();		
-		return new ResponseEntity<>(listOfPromoters, HttpStatus.OK);
 	}
 	//OGARNĄĆ
 	@GetMapping(value="/promoters/possible_allocation")
@@ -74,83 +132,10 @@ public class ThesisApi {
 		List<PromoterDTO> listOfPromoters = thesisService.getPromotersByStudentsLead(studentsLead);
 		return new ResponseEntity<>(listOfPromoters, HttpStatus.OK);
 	}
-	
-	@GetMapping(value="/thesis")
-	public ResponseEntity<List<ThesisDTO>> getAllTheses() throws ThesisException{
-		List<ThesisDTO> listOfThesis = thesisService.getTheses();
-		return new ResponseEntity<>(listOfThesis, HttpStatus.OK);
-	}
-	
-	@GetMapping(value="/students/{id}")
-	public ResponseEntity<StudentDTO> getStudentById(@PathVariable("id") Integer studentId) throws ThesisException{
-		StudentDTO studentDTO = thesisService.getStudentById(studentId);
-		return new ResponseEntity<>(studentDTO, HttpStatus.OK);
-	}
-	
-//	@GetMapping(value="/students/{thesis}")
-//	public ResponseEntity<StudentDTO> getStudentByThesisName(@PathVariable("thesis") String thesisName) throws ThesisException{
-//		StudentDTO studentDTO = new StudentDTO();
-//		
-//		
-//		return new ResponseEntity<>(studentDTO, HttpStatus.OK);
-//	}
-	
 	//need to add number for unassingning student and its thesis and promoters like numberOfStudentsLead
 	//need to add ids names and other details to messages
 	
-	@PostMapping(value="/students")
-	public ResponseEntity<String> addStudent(@RequestBody StudentDTO studentDTO) throws ThesisException{
-		thesisService.addStudent(studentDTO);
-		String message = "API.STUDENT_ADDED";
-		return new ResponseEntity<>(message, HttpStatus.CREATED);
-	}
+
 	
-	@PostMapping(value="/promoters")
-	public ResponseEntity<String> addPromoter(@RequestBody PromoterDTO promoterDTO) throws ThesisException{
-		thesisService.addPromoter(promoterDTO);
-		String message = "API.PROMOTER_ADDED";
-		return new ResponseEntity<>(message, HttpStatus.CREATED);
-	}
-	
-	@PostMapping(value="/thesis")
-	public ResponseEntity<String> addThesis(@RequestBody ThesisDTO thesisDTO) throws ThesisException{
-		thesisService.addThesis(thesisDTO);
-		String message = "API.THESIS_ADDED";
-		return new ResponseEntity<>(message, HttpStatus.CREATED);
-	}
-	
-	@PutMapping(value="/thesis/{studentId}")
-	public ResponseEntity<String> updateThesisOfStudent(@RequestBody ThesisDTO thesisDTO, Integer studentId) throws ThesisException{
-		//thesisService.addThesis(thesisDTO);
-		String message = "";
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
-	
-	@PutMapping(value="/promoter/{studentId}/{promoterId}")
-	public ResponseEntity<String> updatePromoterOfStudent(@PathVariable Integer studentId, @PathVariable Integer promoterId) throws ThesisException{
-		
-		String message = "";
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value="/students/{studentId}")
-	public ResponseEntity<String> deleteStudent(@PathVariable Integer studentId) throws ThesisException{
-		thesisService.deleteStudent(studentId);
-		String message = "API.STUDENT_DELETED";
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value="/promoters/{promoterId}")
-	public ResponseEntity<String> deletePromoter(@PathVariable Integer promoterId) throws ThesisException{
-		thesisService.deletePromoter(promoterId);
-		String message = "API.PROMOTER_DELETED";
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value="/thesis/{thesisId}")
-	public ResponseEntity<String> deleteThesis(@PathVariable Integer thesisId) throws ThesisException{
-		thesisService.deleteThesis(thesisId);
-		String message = "API.THESIS_DELETED";
-		return new ResponseEntity<>(message, HttpStatus.OK);
-	}
+
 }
