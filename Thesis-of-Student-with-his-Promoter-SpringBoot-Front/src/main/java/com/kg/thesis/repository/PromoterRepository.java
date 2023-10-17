@@ -11,4 +11,5 @@ import com.kg.thesis.entity.Promoter;
 @Repository
 public interface PromoterRepository extends JpaRepository<Promoter, Integer>{
 	List<Promoter> findByNumberOfStudentsLead(Integer numberOfStudentsLead);
+	List<Promoter> findByField(String specialization);
 }

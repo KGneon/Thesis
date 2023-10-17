@@ -75,14 +75,14 @@ public class ThesisApi {
 	}
 	//UPDATE
 	//do ogarniecia
-	@PutMapping(value="/thesis/update")
+	@PutMapping(value="/theses/update")
 	public ResponseEntity<String> updateThesisOfStudent(@RequestBody ThesisDTO thesisDTO) throws ThesisException{
 		//thesisService.addThesis(thesisDTO);
 		String message = "";
 		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 	//do ogarniecia
-	@PutMapping(value="/promoter/{studentId}/{promoterId}")
+	@PutMapping(value="/promoters/{studentId}/{promoterId}")
 	public ResponseEntity<String> updatePromoterOfStudent(@PathVariable Integer studentId, @PathVariable Integer promoterId) throws ThesisException{
 
 		String message = "";
@@ -101,7 +101,7 @@ public class ThesisApi {
 		String message = "API.PROMOTER_DELETED";
 		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
-	@DeleteMapping(value="/thesis/{thesisId}")
+	@DeleteMapping(value="/theses/{thesisId}")
 	public ResponseEntity<String> deleteThesis(@PathVariable Integer thesisId) throws ThesisException{
 		thesisService.deleteThesis(thesisId);
 		String message = "API.THESIS_DELETED";
@@ -112,6 +112,16 @@ public class ThesisApi {
 	public ResponseEntity<StudentDTO> getStudentById(@PathVariable("id") Integer studentId) throws ThesisException{
 		StudentDTO studentDTO = thesisService.getStudentById(studentId);
 		return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+	}
+	@GetMapping(value="/promoters/{id}")
+	public ResponseEntity<PromoterDTO> getPromoterById(@PathVariable("id") Integer promoterId) throws ThesisException{
+		PromoterDTO promoterDTO = thesisService.getPromoterById(promoterId);
+		return new ResponseEntity<>(promoterDTO, HttpStatus.OK);
+	}
+	@GetMapping(value="/theses/{id}")
+	public ResponseEntity<ThesisDTO> getThesisById(@PathVariable("id") Integer thesisId) throws ThesisException{
+		ThesisDTO thesisDTO = thesisService.getThesisById(thesisId);
+		return new ResponseEntity<>(thesisDTO, HttpStatus.OK);
 	}
 
 	//OTHER
