@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>HomePage</title>
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
 </head>
 <body>
-	<h1>Thesis Management Application</h1>
-	
-	<p th:text="${homeview}"/>
+	<div align="center">
+		<h1>Thesis Management Application</h1>
+
+		<p th:text="${homeview}" />
+	</div>
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<a th:href="@{/students}"
+				class="btn btn-info btn-sm col-2"> Show all students </a>
+			<a th:href="@{/theses}"
+				class="btn btn-info btn-sm col-2"> Show all theses </a>
+			<a th:href="@{/promoters}"
+				class="btn btn-info btn-sm col-2"> Show all promoters </a>
+		</div>
+		<div class="row justify-content-md-center">
+			<a th:href="@{/addNewStudentForm}"
+				class="btn btn-success btn-sm col-2"> Add student </a>
+			<a th:href="@{/addNewThesisForm}"
+				class="btn btn-success btn-sm col-2"> Add thesis </a>
+			<a th:href="@{/addNewPromoterForm}"
+				class="btn btn-success btn-sm col-2"> Add promoter </a>
+		</div>
+<!-- 		<div class="row justify-content-md-center row-cols-1">
+			<a th:href="@{/possibleStudentAllocation}"
+				class="btn btn-info btn-sm col-6"> Show promoters with possible students allocation </a>
+		</div> -->
+	</div>
+
+		<!-- 	<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3"> Show promoters that lead students thesis in number: </a>
+	<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3"> Show students without thesis</a>
+	<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3"> Show students with wrong thesis assignment </a>
+	<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3"> Find student by id </a>
+	<a th:href="@{/students}" class="btn btn-primary btn-sm mb-3"> Find student by name </a> -->
+
 </body>
-<script type="api.js"></script>
+<script src="api.js"></script>
 </html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Promoter Update</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container">
+		<div class="text-center">
+			<h1>Thesis Management Application</h1>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/}" class="btn btn-primary btn-sm mb-3 col-2"> Back to home page </a>
+			<a th:href="@{/promoters}" class="btn btn-primary btn-sm mb-3 col-2"> All promoters </a>
+		</div>
+		<hr>
+
+		<div align="center">
+			<h2 class="text-center border border-dark bg-warning col-4">Update promoter</h2>
+			<hr>
+			<form action="#" th:action="@{/saveThesis}" th:object="${promoter}" method="POST">
+
+				<!-- Add hidden form field to handle update -->
+				<input type="hidden" th:field="*{promoterId}" />
+
+				<input type="text" th:field="*{promoterName}" class="form-control mb-4 col-4">
+
+				<input type="text" th:field="*{promoterSurname}" class="form-control mb-4 col-4">
+
+				<input type="text" th:field="*{field}" class="form-control mb-4 col-4">
+
+				<button type="submit" class="btn btn-info col-2">Update promoter</button>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

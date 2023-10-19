@@ -7,12 +7,13 @@ import jakarta.validation.constraints.Pattern;
 
 public class PromoterDTO {
 	private Integer promoterId;
-	@NotNull(message="{promoter.name.cannot.be.null}")
-	@Pattern(regexp="[A-Za-z]+", message="{student.name.invalid}")
+	@NotNull(message="{promoter.name.notpresent}")
+	@Pattern(regexp="[A-Z][a-z]*(?:[ -][A-Z][a-z]*){0,4}", message="{promoter.name.invalid}")
 	private String promoterName;
-	@NotNull(message="{promoter.surname.cannot.be.null}")
+	@NotNull(message="{promoter.surname.notpresent}")
+	@Pattern(regexp="[A-Z][a-z]*(?:[ -][A-Z][a-z]*){0,4}", message="{promoter.surname.invalid}")
 	private String promoterSurname;
-	@NotNull(message="{promoter.field.cannot.be.null}")
+	@NotNull(message="{promoter.field.notpresent}")
 	private String field;
 	private Integer numberOfStudentsLead;
 	

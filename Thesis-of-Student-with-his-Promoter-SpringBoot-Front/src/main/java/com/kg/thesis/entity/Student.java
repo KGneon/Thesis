@@ -18,10 +18,10 @@ public class Student {
 	private Integer studentId;
 	private String studentName;
 	private String studentSurname;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name="thesis_id")
 	private Thesis thesis;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name="promoter_id")
 	private Promoter promoter;
 	
