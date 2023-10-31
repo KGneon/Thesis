@@ -2,6 +2,7 @@ package com.kg.thesis.dto;
 
 import com.kg.thesis.entity.Thesis;
 import com.kg.thesis.entity.ThesisType;
+import com.kg.thesis.validator.EnumNamePattern;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -12,6 +13,7 @@ public class ThesisDTO {
 	private String thesisName;
 	@NotNull(message="thesis.field.notpresent")
 	private String thesisField;
+	@EnumNamePattern(regexp = "^(BACHELOR|ENGINEER|MASTER|DOCTOR)$")
 	private ThesisType thesisType;
 	
 	public Integer getThesisId() {
