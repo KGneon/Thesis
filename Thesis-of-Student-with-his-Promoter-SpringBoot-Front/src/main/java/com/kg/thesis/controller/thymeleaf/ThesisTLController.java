@@ -1,4 +1,4 @@
-package com.kg.thesis.api;
+package com.kg.thesis.controller.thymeleaf;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import com.kg.thesis.dto.PromoterDTO;
@@ -19,7 +18,7 @@ import java.util.List;
 
 //CONTROLLER FOR THYMELEAF VERSION OF APP
 @Controller
-public class ThesisController {
+public class ThesisTLController {
 
 	@Autowired
 	ThesisService thesisService;
