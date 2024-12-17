@@ -22,7 +22,7 @@ import com.kg.thesis.repository.PromoterRepository;
 import com.kg.thesis.repository.StudentRepository;
 import com.kg.thesis.repository.ThesisRepository;
 
-@Service(value = "thesisService")
+@Service
 @Transactional
 @PropertySource("classpath:application.properties")
 public class ThesisServiceImpl implements ThesisService {

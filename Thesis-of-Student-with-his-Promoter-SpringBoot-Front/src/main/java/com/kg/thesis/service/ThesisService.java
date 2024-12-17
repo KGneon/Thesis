@@ -29,7 +29,6 @@ public interface ThesisService {
 	public void assignThesisToStudent(Integer studentId, Integer thesisId) throws ThesisException;
 	//SPECIFIC METHODS
 	//???FRONTEND OR BACKEND???
-	public List<>
 	public List<StudentDTO> getStudentsWithDoubtfulThesis(Boolean notMatchedOrBlank) throws ThesisException;
 	public List<PromoterDTO> getPromotersWithPossibleStudentAllocation() throws ThesisException;
 	public List<PromoterDTO> getPromotersByStudentsLead(Integer studentsLead) throws ThesisException;
