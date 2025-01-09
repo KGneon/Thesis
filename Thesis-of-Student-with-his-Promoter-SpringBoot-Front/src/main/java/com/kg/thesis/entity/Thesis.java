@@ -6,40 +6,31 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Thesis {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer thesisId;
+	private Long thesisId;
 	private String thesisName;
 	private String thesisField;
 	@Enumerated(EnumType.STRING)
 	private ThesisType thesisType;
-	public Integer getThesisId() {
-		return thesisId;
-	}
-	public void setThesisId(Integer thesisId) {
-		this.thesisId = thesisId;
-	}
-	public String getThesisName() {
-		return thesisName;
-	}
-	public void setThesisName(String thesisName) {
-		this.thesisName = thesisName;
-	}
-	public String getThesisField() {
-		return thesisField;
-	}
-	public void setThesisField(String thesisField) {
-		this.thesisField = thesisField;
-	}
-	public ThesisType getThesisType() {
-		return thesisType;
-	}
-	public void setThesisType(ThesisType thesisType) {
-		this.thesisType = thesisType;
-	}
-	
-	
+	private String summary;
+	private String status;
+	private String bookmark;
+//	@ManyToOne
+//	@JoinColumn(name = "student_student_id")
+//	private Student student;
+//	@ManyToOne
+//	@JoinColumn(name = "promoter_promoter_id")
+//	private Promoter promoter;
 }

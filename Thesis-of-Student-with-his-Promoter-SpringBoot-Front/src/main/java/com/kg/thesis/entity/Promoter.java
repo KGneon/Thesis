@@ -6,8 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Promoter {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -16,37 +22,6 @@ public class Promoter {
 	private String promoterSurname;
 	private String field;
 	private Integer numberOfStudentsLead;
-	
-	public Integer getPromoterId() {
-		return promoterId;
-	}
-	public void setPromoterId(Integer promoterId) {
-		this.promoterId = promoterId;
-	}
-	public String getPromoterName() {
-		return promoterName;
-	}
-	public void setPromoterName(String promoterName) {
-		this.promoterName = promoterName;
-	}
-	public String getPromoterSurname() {
-		return promoterSurname;
-	}
-	public void setPromoterSurname(String promoterSurname) {
-		this.promoterSurname = promoterSurname;
-	}
-	public String getField() {
-		return field;
-	}
-	public void setField(String field) {
-		this.field = field;
-	}
-	public Integer getNumberOfStudentsLead() {
-		return numberOfStudentsLead;
-	}
-	public void setNumberOfStudentsLead(Integer numberOfStudentsLead) {
-		this.numberOfStudentsLead = numberOfStudentsLead;
-	}
 	
 	@Override
 	public int hashCode() {
